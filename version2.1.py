@@ -21,6 +21,17 @@ import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import ttk
 from tkinter.font import Font
+import os
+
+
+# Get the directory of the images
+def get_image_path(image_name):
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    # Build the full image path
+    image_path = os.path.join(script_dir, 'photos', image_name)
+    return image_path
+
 
 class LengthConverter:
     def __init__(self, window):
@@ -29,7 +40,7 @@ class LengthConverter:
         self.window.geometry("275x135")
         
         # Load the background image
-        self.bg_img = tk.PhotoImage(file="photos/blue.png")
+        self.bg_img = PhotoImage(file=get_image_path('blue.png'))
         
         # Create a canvas
         self.canvas = tk.Canvas(self.window)
@@ -807,14 +818,18 @@ class MainMenu:
         global my_font
         my_font = Font(family="Verdana", size=10)
 
+        # Get the directory of the script
+        bg_image_path = get_image_path('menu2.png')
+
         # Load the image
-        self.bg_image = PhotoImage(file="photos/Main Menu UI 2.png")
+        self.bg_image = PhotoImage(file=bg_image_path)
         self.window.geometry(f"{self.bg_image.width()}x{self.bg_image.height()}")
 
         # Create a canvas and Add the image to the canvas                                               # Remember
         bg_canvas = tk.Canvas(self.window, width=self.bg_image.width(), height=self.bg_image.height(), highlightthickness=0)
         bg_canvas.pack(fill="both", expand=True)
         bg_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
+
 
         # Set window to None
         self.length_converter_window = None
@@ -824,7 +839,9 @@ class MainMenu:
         self.weight_converter_window = None
 
         # Length Converter Button
-        self.length_image = PhotoImage(file="photos/length2.png")
+        length_image_path = get_image_path('length2.png')
+        self.length_image = PhotoImage(file=length_image_path)
+
         length_converter_button = tk.Button(
             self.window,
             command=self.open_length_converter,  
@@ -835,7 +852,8 @@ class MainMenu:
         length_converter_button.place(x=57, y=150, width=100, height=50)
 
         # Time Converter Button
-        self.time_image = PhotoImage(file="photos/time.png")
+        time_image_path = get_image_path('time.png')
+        self.time_image = PhotoImage(file=time_image_path)
         time_converter_button = tk.Button(
             self.window, 
             command=self.open_time_converter,
@@ -846,7 +864,8 @@ class MainMenu:
         time_converter_button.place(x=235, y=150, width=100, height=50)
 
         # Temperature Converter Button
-        self.temperature_image = PhotoImage(file="photos/temp.png")
+        temperature_image_path = get_image_path('temp.png')
+        self.temperature_image = PhotoImage(file=temperature_image_path)
         temperature_converter_button = tk.Button(
             self.window,
             command=self.open_temperature_converter,
@@ -857,7 +876,8 @@ class MainMenu:
         temperature_converter_button.place(x=147, y=310, width=100, height=50)
 
         # Data Converter Button
-        self.data_image = PhotoImage(file="photos/data.png")
+        data_image_path = get_image_path('data.png')
+        self.data_image = PhotoImage(file=data_image_path)
         data_converter_button = tk.Button(
             self.window, 
             command=self.open_data_converter,
@@ -868,7 +888,8 @@ class MainMenu:
         data_converter_button.place(x=515, y=310, width=100, height=50)
 
         # Weight Converter Button
-        self.weight_image = PhotoImage(file="photos/weight.png")
+        weight_image_path = get_image_path('weight.png')
+        self.weight_image = PhotoImage(file=weight_image_path)
         weight_converter_button = tk.Button(
             self.window,
             command=self.open_weight_converter,
@@ -879,7 +900,8 @@ class MainMenu:
         weight_converter_button.place(x=415, y=150, width=100, height=50)
 
         # Speed Converter Button
-        self.speed_image = PhotoImage(file="photos/speed.png")
+        speed_image_path = get_image_path('speed.png')
+        self.speed_image = PhotoImage(file=speed_image_path)
         speed_converter_button = tk.Button(
             self.window,
             command=self.open_speed_converter,
@@ -890,7 +912,8 @@ class MainMenu:
         speed_converter_button.place(x=595, y=150, width=100, height=50)
 
         # Volume Converter Button
-        self.volume_image = PhotoImage(file="photos/volume.png")
+        volume_image_path = get_image_path('volume.png')
+        self.volume_image = PhotoImage(file=volume_image_path)
         volume_converter_button = tk.Button(
             self.window,
             command=self.open_volume_converter,
