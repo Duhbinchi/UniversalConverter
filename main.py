@@ -487,7 +487,7 @@ class DataConverter:
         self.window.geometry("250x300")
         self.updating = False
 
-        self.bg_img = PhotoImage(file=get_image_path('yellow.png'))
+        self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
@@ -497,42 +497,42 @@ class DataConverter:
         bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font)
         bits_entry.place(x=100, y=10)
         
-        self.canvas.create_text(10, 10, text="Bits", anchor="nw", fill="#3a32ad", font=my_font)
+        self.canvas.create_text(10, 10, text="Bits", anchor="nw", fill="white", font=my_font)
         
         self.bytes_var = tk.StringVar()
         self.bytes_var.trace_add("write", self.convert_from_bytes)
         bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font)
         bytes_entry.place(x=100, y=40)
         
-        self.canvas.create_text(10, 40, text="Bytes", anchor="nw", fill="#3a32ad", font=my_font)
+        self.canvas.create_text(10, 40, text="Bytes", anchor="nw", fill="white", font=my_font)
         
         self.kb_var = tk.StringVar()
         self.kb_var.trace_add("write", self.convert_from_kb)
         kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font)
         kb_entry.place(x=100, y=70)
         
-        self.canvas.create_text(10, 70, text="Kilobytes", anchor="nw", fill="#3a32ad", font=my_font)
+        self.canvas.create_text(10, 70, text="Kilobytes", anchor="nw", fill="white", font=my_font)
         
         self.mb_var = tk.StringVar()
         self.mb_var.trace_add("write", self.convert_from_mb)
         mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font)
         mb_entry.place(x=100, y=100)
         
-        self.canvas.create_text(10, 100, text="Megabytes", anchor="nw", fill="#3a32ad", font=my_font)
+        self.canvas.create_text(10, 100, text="Megabytes", anchor="nw", fill="white", font=my_font)
         
         self.gb_var = tk.StringVar()
         self.gb_var.trace_add("write", self.convert_from_gb)
         gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font)
         gb_entry.place(x=100, y=130)
         
-        self.canvas.create_text(10, 130, text="Gigabytes", anchor="nw", fill="#3a32ad", font=my_font)
+        self.canvas.create_text(10, 130, text="Gigabytes", anchor="nw", fill="white", font=my_font)
         
         self.tb_var = tk.StringVar()
         self.tb_var.trace_add("write", self.convert_from_tb)
         tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font)
         tb_entry.place(x=100, y=160)
         
-        self.canvas.create_text(10, 160, text="Terabytes", anchor="nw", fill="#3a32ad", font=my_font)
+        self.canvas.create_text(10, 160, text="Terabytes", anchor="nw", fill="white", font=my_font)
 
     def clear_except(self, field_to_keep):
         fields = [
@@ -596,7 +596,7 @@ class DataConverter:
             try:
                 kb = float(self.kb_var.get())
                 self.bits_var.set(f"{kb * 8 * 1024:.2f}")
-                self.bytes_var.set(f"{kb * 1024:,2f}")
+                self.bytes_var.set(f"{kb * 1024:.2f}")
                 self.mb_var.set(f"{kb / 1024:.4f}")
                 self.gb_var.set(f"{kb / 1024 / 1024:.6f}")
                 self.tb_var.set(f"{kb / 1024 / 1024 / 1024:.10f}")
