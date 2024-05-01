@@ -5,15 +5,17 @@ x Done
 - Used Image Backgrounds and Buttons for UI design
 
 x Goals To Do
+- Add comma separators to the numbers
 - Functions for:
 -- speed converter class
 -- volume coverter class
-
-x Ideas
-- In the main menu class, load all the images to be used later as background images for the other windows
-- game title screen-like user interface in the main menu
-- Enable TKinter to download images from the internet for the main menu background
 - add symbols to the labels (unicode / unit of measurement)
+- Icon bitmap for the window icons
+
+
+x Ideas Only
+- In the main menu class, load all the images to be used later as background images for the other windows
+- Enable TKinter to download images from the internet for the main menu background
 - maybe different bg image appropriate for each converter class?
 
 """
@@ -29,7 +31,6 @@ import os
 def get_image_path(image_name):
     # Get the directory of the current script
     script_dir = os.path.dirname(os.path.realpath(__file__))
-    # Build the full image path
     image_path = os.path.join(script_dir, 'photos', image_name)
     return image_path
 
@@ -38,7 +39,7 @@ class LengthConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Length Converter")
-        self.window.geometry("275x135")
+        self.window.geometry("275x170")
         
         # Load the background image
         self.bg_img = PhotoImage(file=get_image_path('blue.png'))
@@ -55,28 +56,32 @@ class LengthConverter:
         self.meters_var = tk.StringVar()
         self.meters_var.trace_add("write", self.convert_from_meters)
         meter_entry = tk.Entry(self.window, textvariable=self.meters_var, font=my_font)
-        meter_entry.place(x=100, y=40)
+        meter_entry.place(x=120, y=40)
         # Use create_text() instead of a Label
-        self.canvas.create_text(10, 40, text="Meters", font=my_font, anchor='nw', fill='white')
+        self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="white", font=my_font)
+        self.canvas.create_text(30, 40, text="Meters", anchor="nw", fill="#faff00", font=my_font)
         
         # Repeat for the other variables
         self.feet_var = tk.StringVar()
         self.feet_var.trace_add("write", self.convert_from_feet)
         feet_entry = tk.Entry(self.window, textvariable=self.feet_var, font=my_font)
-        feet_entry.place(x=100, y=100)
-        self.canvas.create_text(10, 100, text="Feet", font=my_font, anchor='nw', fill='white')
+        feet_entry.place(x=120, y=100)
+        self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="white", font=my_font)
+        self.canvas.create_text(30, 100, text="Feet", anchor="nw", fill="#faff00", font=my_font)
         
         self.inches_var = tk.StringVar()
         self.inches_var.trace_add("write", self.convert_from_inches)
         inches_entry = tk.Entry(self.window, textvariable=self.inches_var, font=my_font)
-        inches_entry.place(x=100, y=70)
-        self.canvas.create_text(10, 70, text="Inches", font=my_font, anchor='nw', fill='white')
+        inches_entry.place(x=120, y=70)
+        self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="white", font=my_font)
+        self.canvas.create_text(30, 70, text="Inches", anchor="nw", fill="#faff00", font=my_font)
         
         self.cm_var = tk.StringVar()
         self.cm_var.trace_add("write", self.convert_from_cm)
         cm_entry = tk.Entry(self.window, textvariable=self.cm_var, font=my_font)
-        cm_entry.place(x=100, y=10)
-        self.canvas.create_text(10, 10, text="Centimeters", font=my_font, anchor='nw', fill='white')
+        cm_entry.place(x=120, y=10)
+        self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="white", font=my_font)
+        self.canvas.create_text(30, 10, text="Centimeters", anchor="nw", fill="#faff00", font=my_font)
 
 #clearing fields with selected exeption
     def clear_except(self, field_to_keep):
@@ -96,9 +101,9 @@ class LengthConverter:
         else:
             try:
                 meters = float(self.meters_var.get())
-                self.feet_var.set(f"{meters * 3.28084:.2f}")
-                self.inches_var.set(f"{meters * 39.3701:.2f}")
-                self.cm_var.set(f"{meters * 100:.2f}")
+                self.feet_var.set(f"{meters * 3.28084:,.2f}")
+                self.inches_var.set(f"{meters * 39.3701:,.2f}")
+                self.cm_var.set(f"{meters * 100:,.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -113,9 +118,9 @@ class LengthConverter:
         else:
             try:
                 feet = float(self.feet_var.get())
-                self.meters_var.set(f"{feet / 3.28084:.2f}")
-                self.inches_var.set(f"{feet * 12:.2f}")
-                self.cm_var.set(f"{feet * 30.48:.2f}")
+                self.meters_var.set(f"{feet / 3.28084:,.2f}")
+                self.inches_var.set(f"{feet * 12:,.2f}")
+                self.cm_var.set(f"{feet * 30.48:,.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -130,9 +135,9 @@ class LengthConverter:
         else:
             try:
                 inches = float(self.inches_var.get())
-                self.meters_var.set(f"{inches / 39.3701:.2f}")
-                self.feet_var.set(f"{inches / 12:.2f}")
-                self.cm_var.set(f"{inches * 2.54:.2f}")
+                self.meters_var.set(f"{inches / 39.3701:,.2f}")
+                self.feet_var.set(f"{inches / 12:,.2f}")
+                self.cm_var.set(f"{inches * 2.54:,.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -146,9 +151,9 @@ class LengthConverter:
         else:
             try:
                 cm = float(self.cm_var.get())
-                self.meters_var.set(f"{cm / 100:.2f}")
-                self.feet_var.set(f"{cm / 30.48:.2f}")
-                self.inches_var.set(f"{cm / 2.54:.2f}")
+                self.meters_var.set(f"{cm / 100:,.2f}")
+                self.feet_var.set(f"{cm / 30.48:,.2f}")
+                self.inches_var.set(f"{cm / 2.54:,.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -476,53 +481,52 @@ class DataConverter:
         self.window.geometry("250x300")
         self.updating = False
 
+        self.bg_img = PhotoImage(file=get_image_path('yellow.png'))
+        self.canvas = tk.Canvas(self.window)
+        self.canvas.pack(fill='both', expand=True)
+        self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
+
         self.bits_var = tk.StringVar()
         self.bits_var.trace_add("write", self.convert_from_bits)
-        bits_entry = tk.Entry(self.window, textvariable=self.bits_var)
+        bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font)
         bits_entry.place(x=100, y=10)
-
-        bits_label = tk.Label(self.window, text="Bits")
-        bits_label.place(x=10, y=10)
-
+        
+        self.canvas.create_text(10, 10, text="Bits", anchor="nw", fill="#3a32ad", font=my_font)
+        
         self.bytes_var = tk.StringVar()
         self.bytes_var.trace_add("write", self.convert_from_bytes)
-        bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var)
+        bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font)
         bytes_entry.place(x=100, y=40)
-
-        bytes_label = tk.Label(self.window, text="Bytes")
-        bytes_label.place(x=10, y=40)
-
+        
+        self.canvas.create_text(10, 40, text="Bytes", anchor="nw", fill="#3a32ad", font=my_font)
+        
         self.kb_var = tk.StringVar()
         self.kb_var.trace_add("write", self.convert_from_kb)
-        kb_entry = tk.Entry(self.window, textvariable=self.kb_var)
+        kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font)
         kb_entry.place(x=100, y=70)
-
-        kb_label = tk.Label(self.window, text="Kilobytes")
-        kb_label.place(x=10, y=70)
-
+        
+        self.canvas.create_text(10, 70, text="Kilobytes", anchor="nw", fill="#3a32ad", font=my_font)
+        
         self.mb_var = tk.StringVar()
         self.mb_var.trace_add("write", self.convert_from_mb)
-        mb_entry = tk.Entry(self.window, textvariable=self.mb_var)
+        mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font)
         mb_entry.place(x=100, y=100)
-
-        mb_label = tk.Label(self.window, text="Megabytes")
-        mb_label.place(x=10, y=100)
-
+        
+        self.canvas.create_text(10, 100, text="Megabytes", anchor="nw", fill="#3a32ad", font=my_font)
+        
         self.gb_var = tk.StringVar()
         self.gb_var.trace_add("write", self.convert_from_gb)
-        gb_entry = tk.Entry(self.window, textvariable=self.gb_var)
+        gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font)
         gb_entry.place(x=100, y=130)
-
-        gb_label = tk.Label(self.window, text="Gigabytes")
-        gb_label.place(x=10, y=130)
-
+        
+        self.canvas.create_text(10, 130, text="Gigabytes", anchor="nw", fill="#3a32ad", font=my_font)
+        
         self.tb_var = tk.StringVar()
         self.tb_var.trace_add("write", self.convert_from_tb)
-        tb_entry = tk.Entry(self.window, textvariable=self.tb_var)
+        tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font)
         tb_entry.place(x=100, y=160)
-
-        tb_label = tk.Label(self.window, text="Terabytes")
-        tb_label.place(x=10, y=160)
+        
+        self.canvas.create_text(10, 160, text="Terabytes", anchor="nw", fill="#3a32ad", font=my_font)
 
     def clear_except(self, field_to_keep):
         fields = [
@@ -548,11 +552,11 @@ class DataConverter:
             try:
                 # 1024 or 1000
                 bits = float(self.bits_var.get())
-                self.bytes_var.set(f"{bits / 8:.2f}")
-                self.kb_var.set(f"{bits / 8 / 1024:.4f}")
-                self.mb_var.set(f"{bits / 8 / 1024 / 1024:.6f}")
-                self.gb_var.set(f"{bits / 8 / 1024 / 1024 / 1024:.8f}")
-                self.tb_var.set(f"{bits / 8 / 1024 / 1024 / 1024 / 1024:.14f}")
+                self.bytes_var.set(f"{bits / 8:,.2f}")
+                self.kb_var.set(f"{bits / 8 / 1024:,.4f}")
+                self.mb_var.set(f"{bits / 8 / 1024 / 1024:,.8f}")
+                self.gb_var.set(f"{bits / 8 / 1024 / 1024 / 1024:,.10f}")
+                self.tb_var.set(f"{bits / 8 / 1024 / 1024 / 1024 / 1024:,.14f}")
             except ValueError:
                 pass
         self.updating = False
@@ -567,11 +571,11 @@ class DataConverter:
         else:
             try:
                 bytes = float(self.bytes_var.get())
-                self.bits_var.set(f"{bytes * 8:.2f}")
-                self.kb_var.set(f"{bytes / 1024:.4f}")
-                self.mb_var.set(f"{bytes / 1024 / 1024:.6f}")
-                self.gb_var.set(f"{bytes / 1024 / 1024 / 1024:.8f}")
-                self.tb_var.set(f"{bytes / 1024 / 1024 / 1024 / 1024:.12f}")
+                self.bits_var.set(f"{bytes * 8:,.2f}")
+                self.kb_var.set(f"{bytes / 1024:,.4f}")
+                self.mb_var.set(f"{bytes / 1024 / 1024:,.6f}")
+                self.gb_var.set(f"{bytes / 1024 / 1024 / 1024:,.10f}")
+                self.tb_var.set(f"{bytes / 1024 / 1024 / 1024 / 1024:,.12f}")
             except ValueError:
                 pass
         self.updating = False
@@ -585,11 +589,11 @@ class DataConverter:
         else:
             try:
                 kb = float(self.kb_var.get())
-                self.bits_var.set(f"{kb * 8 * 1024:.2f}")
-                self.bytes_var.set(f"{kb * 1024:.2f}")
-                self.mb_var.set(f"{kb / 1024:.4f}")
-                self.gb_var.set(f"{kb / 1024 / 1024:.6f}")
-                self.tb_var.set(f"{kb / 1024 / 1024 / 1024:.10f}")
+                self.bits_var.set(f"{kb * 8 * 1024:,.2f}")
+                self.bytes_var.set(f"{kb * 1024:,.2f}")
+                self.mb_var.set(f"{kb / 1024:,.4f}")
+                self.gb_var.set(f"{kb / 1024 / 1024:,.6f}")
+                self.tb_var.set(f"{kb / 1024 / 1024 / 1024:,.10f}")
             except ValueError:
                 pass
         self.updating = False
@@ -603,11 +607,11 @@ class DataConverter:
         else:
             try:
                 mb = float(self.mb_var.get())
-                self.bits_var.set(f"{mb * 8 * 1024 * 1024:.2f}")
-                self.bytes_var.set(f"{mb * 1024 * 1024:.2f}")
-                self.kb_var.set(f"{mb * 1024:.2f}")
-                self.gb_var.set(f"{mb / 1024:.4f}")
-                self.tb_var.set(f"{mb / 1024 / 1024:.10f}")
+                self.bits_var.set(f"{mb * 8 * 1024 * 1024:,.2f}")
+                self.bytes_var.set(f"{mb * 1024 * 1024:,.2f}")
+                self.kb_var.set(f"{mb * 1024:,.2f}")
+                self.gb_var.set(f"{mb / 1024:,.4f}")
+                self.tb_var.set(f"{mb / 1024 / 1024:,.10f}")
             except ValueError:
                 pass
         self.updating = False
@@ -621,11 +625,11 @@ class DataConverter:
         else:
             try:
                 gb = float(self.gb_var.get())
-                self.bits_var.set(f"{gb * 8 * 1024 * 1024 * 1024:.2f}")
-                self.bytes_var.set(f"{gb * 1024 * 1024 * 1024:.2f}")
-                self.kb_var.set(f"{gb * 1024 * 1024:.2f}")
-                self.mb_var.set(f"{gb * 1024:.2f}")
-                self.tb_var.set(f"{gb / 1024:.4}")
+                self.bits_var.set(f"{gb * 8 * 1024 * 1024 * 1024:,.2f}")
+                self.bytes_var.set(f"{gb * 1024 * 1024 * 1024:,.2f}")
+                self.kb_var.set(f"{gb * 1024 * 1024:,.2f}")
+                self.mb_var.set(f"{gb * 1024:,.2f}")
+                self.tb_var.set(f"{gb / 1024:,.4}")
             except ValueError:
                 pass
         self.updating = False
@@ -639,11 +643,11 @@ class DataConverter:
         else:
             try:
                 tb = float(self.tb_var.get())
-                self.bits_var.set(f"{tb * 8 * 1024 * 1024 * 1024 * 1024:.2f}")
-                self.bytes_var.set(f"{tb * 1024 * 1024 * 1024 * 1024:.2f}")
-                self.kb_var.set(f"{tb * 1024 * 1024 * 1024:.2f}")
-                self.mb_var.set(f"{tb * 1024 * 1024:.2f}")
-                self.gb_var.set(f"{tb * 1024:.2f}")
+                self.bits_var.set(f"{tb * 8 * 1024 * 1024 * 1024 * 1024:,.2f}")
+                self.bytes_var.set(f"{tb * 1024 * 1024 * 1024 * 1024:,.2f}")
+                self.kb_var.set(f"{tb * 1024 * 1024 * 1024:,.2f}")
+                self.mb_var.set(f"{tb * 1024 * 1024:,.2f}")
+                self.gb_var.set(f"{tb * 1024:,.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -817,7 +821,10 @@ class MainMenu:
         self.window.configure(bg="blue") ; self.window.resizable(False, False)
         
         global my_font
-        my_font = Font(family="Verdana", size=10)
+        my_font = ("Nirmala UI", 10, "bold")
+
+        global my_font_thin
+        my_font_thin = ("Consolas", 10, "bold")
 
         # Get the directory of the script
         bg_image_path = get_image_path('menu2.png')
