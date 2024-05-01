@@ -12,11 +12,17 @@ x Goals To Do
 - add symbols to the labels (unicode / unit of measurement)
 - Icon bitmap for the window icons
 
-
 x Ideas Only
 - In the main menu class, load all the images to be used later as background images for the other windows
 - Enable TKinter to download images from the internet for the main menu background
 - maybe different bg image appropriate for each converter class?
+- Apply this logic to the other converter classes (show commas but disregard them when converting)
+    try:
+        gb_str = self.gb_var.get().replace(',', '')
+        gb = float(gb_str)
+        self.tb_var.set(f"{gb / 1024:,.4f}")
+    except ValueError:
+        pass
 
 """
 
@@ -45,7 +51,7 @@ class LengthConverter:
         self.bg_img = PhotoImage(file=get_image_path('blue.png'))
         
         # Create a canvas
-        self.canvas = tk.Canvas(self.window)
+        self.canvas = tk.Canvas(self.window, highlightthickness=0)
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
     
@@ -101,9 +107,9 @@ class LengthConverter:
         else:
             try:
                 meters = float(self.meters_var.get())
-                self.feet_var.set(f"{meters * 3.28084:,.2f}")
-                self.inches_var.set(f"{meters * 39.3701:,.2f}")
-                self.cm_var.set(f"{meters * 100:,.2f}")
+                self.feet_var.set(f"{meters * 3.28084:.2f}")
+                self.inches_var.set(f"{meters * 39.3701:.2f}")
+                self.cm_var.set(f"{meters * 100:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -118,9 +124,9 @@ class LengthConverter:
         else:
             try:
                 feet = float(self.feet_var.get())
-                self.meters_var.set(f"{feet / 3.28084:,.2f}")
-                self.inches_var.set(f"{feet * 12:,.2f}")
-                self.cm_var.set(f"{feet * 30.48:,.2f}")
+                self.meters_var.set(f"{feet / 3.28084:.2f}")
+                self.inches_var.set(f"{feet * 12:.2f}")
+                self.cm_var.set(f"{feet * 30.48:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -135,9 +141,9 @@ class LengthConverter:
         else:
             try:
                 inches = float(self.inches_var.get())
-                self.meters_var.set(f"{inches / 39.3701:,.2f}")
-                self.feet_var.set(f"{inches / 12:,.2f}")
-                self.cm_var.set(f"{inches * 2.54:,.2f}")
+                self.meters_var.set(f"{inches / 39.3701:.2f}")
+                self.feet_var.set(f"{inches / 12:.2f}")
+                self.cm_var.set(f"{inches * 2.54:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -151,9 +157,9 @@ class LengthConverter:
         else:
             try:
                 cm = float(self.cm_var.get())
-                self.meters_var.set(f"{cm / 100:,.2f}")
-                self.feet_var.set(f"{cm / 30.48:,.2f}")
-                self.inches_var.set(f"{cm / 2.54:,.2f}")
+                self.meters_var.set(f"{cm / 100:.2f}")
+                self.feet_var.set(f"{cm / 30.48:.2f}")
+                self.inches_var.set(f"{cm / 2.54:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -552,11 +558,11 @@ class DataConverter:
             try:
                 # 1024 or 1000
                 bits = float(self.bits_var.get())
-                self.bytes_var.set(f"{bits / 8:,.2f}")
-                self.kb_var.set(f"{bits / 8 / 1024:,.4f}")
-                self.mb_var.set(f"{bits / 8 / 1024 / 1024:,.8f}")
-                self.gb_var.set(f"{bits / 8 / 1024 / 1024 / 1024:,.10f}")
-                self.tb_var.set(f"{bits / 8 / 1024 / 1024 / 1024 / 1024:,.14f}")
+                self.bytes_var.set(f"{bits / 8:.2f}")
+                self.kb_var.set(f"{bits / 8 / 1024:.4f}")
+                self.mb_var.set(f"{bits / 8 / 1024 / 1024:.8f}")
+                self.gb_var.set(f"{bits / 8 / 1024 / 1024 / 1024:.10f}")
+                self.tb_var.set(f"{bits / 8 / 1024 / 1024 / 1024 / 1024:.14f}")
             except ValueError:
                 pass
         self.updating = False
@@ -571,11 +577,11 @@ class DataConverter:
         else:
             try:
                 bytes = float(self.bytes_var.get())
-                self.bits_var.set(f"{bytes * 8:,.2f}")
-                self.kb_var.set(f"{bytes / 1024:,.4f}")
-                self.mb_var.set(f"{bytes / 1024 / 1024:,.6f}")
-                self.gb_var.set(f"{bytes / 1024 / 1024 / 1024:,.10f}")
-                self.tb_var.set(f"{bytes / 1024 / 1024 / 1024 / 1024:,.12f}")
+                self.bits_var.set(f"{bytes * 8:.2f}")
+                self.kb_var.set(f"{bytes / 1024:.4f}")
+                self.mb_var.set(f"{bytes / 1024 / 1024:.6f}")
+                self.gb_var.set(f"{bytes / 1024 / 1024 / 1024:.10f}")
+                self.tb_var.set(f"{bytes / 1024 / 1024 / 1024 / 1024:.12f}")
             except ValueError:
                 pass
         self.updating = False
@@ -589,11 +595,11 @@ class DataConverter:
         else:
             try:
                 kb = float(self.kb_var.get())
-                self.bits_var.set(f"{kb * 8 * 1024:,.2f}")
-                self.bytes_var.set(f"{kb * 1024:,.2f}")
-                self.mb_var.set(f"{kb / 1024:,.4f}")
-                self.gb_var.set(f"{kb / 1024 / 1024:,.6f}")
-                self.tb_var.set(f"{kb / 1024 / 1024 / 1024:,.10f}")
+                self.bits_var.set(f"{kb * 8 * 1024:.2f}")
+                self.bytes_var.set(f"{kb * 1024:,2f}")
+                self.mb_var.set(f"{kb / 1024:.4f}")
+                self.gb_var.set(f"{kb / 1024 / 1024:.6f}")
+                self.tb_var.set(f"{kb / 1024 / 1024 / 1024:.10f}")
             except ValueError:
                 pass
         self.updating = False
@@ -607,11 +613,11 @@ class DataConverter:
         else:
             try:
                 mb = float(self.mb_var.get())
-                self.bits_var.set(f"{mb * 8 * 1024 * 1024:,.2f}")
-                self.bytes_var.set(f"{mb * 1024 * 1024:,.2f}")
-                self.kb_var.set(f"{mb * 1024:,.2f}")
-                self.gb_var.set(f"{mb / 1024:,.4f}")
-                self.tb_var.set(f"{mb / 1024 / 1024:,.10f}")
+                self.bits_var.set(f"{mb * 8 * 1024 * 1024:.2f}")
+                self.bytes_var.set(f"{mb * 1024 * 1024:.2f}")
+                self.kb_var.set(f"{mb * 1024:.2f}")
+                self.gb_var.set(f"{mb / 1024:.4f}")
+                self.tb_var.set(f"{mb / 1024 / 1024:.10f}")
             except ValueError:
                 pass
         self.updating = False
@@ -625,11 +631,11 @@ class DataConverter:
         else:
             try:
                 gb = float(self.gb_var.get())
-                self.bits_var.set(f"{gb * 8 * 1024 * 1024 * 1024:,.2f}")
-                self.bytes_var.set(f"{gb * 1024 * 1024 * 1024:,.2f}")
-                self.kb_var.set(f"{gb * 1024 * 1024:,.2f}")
-                self.mb_var.set(f"{gb * 1024:,.2f}")
-                self.tb_var.set(f"{gb / 1024:,.4}")
+                self.bits_var.set(f"{gb * 8 * 1024 * 1024 * 1024:.2f}")
+                self.bytes_var.set(f"{gb * 1024 * 1024 * 1024:.2f}")
+                self.kb_var.set(f"{gb * 1024 * 1024:.2f}")
+                self.mb_var.set(f"{gb * 1024:.2f}")
+                self.tb_var.set(f"{gb / 1024:.4}")
             except ValueError:
                 pass
         self.updating = False
@@ -643,11 +649,11 @@ class DataConverter:
         else:
             try:
                 tb = float(self.tb_var.get())
-                self.bits_var.set(f"{tb * 8 * 1024 * 1024 * 1024 * 1024:,.2f}")
-                self.bytes_var.set(f"{tb * 1024 * 1024 * 1024 * 1024:,.2f}")
-                self.kb_var.set(f"{tb * 1024 * 1024 * 1024:,.2f}")
-                self.mb_var.set(f"{tb * 1024 * 1024:,.2f}")
-                self.gb_var.set(f"{tb * 1024:,.2f}")
+                self.bits_var.set(f"{tb * 8 * 1024 * 1024 * 1024 * 1024:.2f}")
+                self.bytes_var.set(f"{tb * 1024 * 1024 * 1024 * 1024:.2f}")
+                self.kb_var.set(f"{tb * 1024 * 1024 * 1024:.2f}")
+                self.mb_var.set(f"{tb * 1024 * 1024:.2f}")
+                self.gb_var.set(f"{tb * 1024:.2f}")
             except ValueError:
                 pass
         self.updating = False
