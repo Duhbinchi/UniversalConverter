@@ -45,13 +45,13 @@ class LengthConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Length Converter")
-        self.window.geometry("275x170")
+        self.window.geometry("265x508+858+60")
         
         # Load the background image
-        self.bg_img = PhotoImage(file=get_image_path('blue.png'))
+        self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
         
         # Create a canvas
-        self.canvas = tk.Canvas(self.window, highlightthickness=0)
+        self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
     
@@ -62,32 +62,32 @@ class LengthConverter:
         self.meters_var = tk.StringVar()
         self.meters_var.trace_add("write", self.convert_from_meters)
         meter_entry = tk.Entry(self.window, textvariable=self.meters_var, font=my_font)
-        meter_entry.place(x=120, y=40)
+        meter_entry.place(x=120, y=40, width=135)
         # Use create_text() instead of a Label
-        self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="white", font=my_font)
-        self.canvas.create_text(30, 40, text="Meters", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 40, text="Meters", anchor="nw", fill="#FFFFFF", font=my_font)
         
         # Repeat for the other variables
         self.feet_var = tk.StringVar()
         self.feet_var.trace_add("write", self.convert_from_feet)
         feet_entry = tk.Entry(self.window, textvariable=self.feet_var, font=my_font)
-        feet_entry.place(x=120, y=100)
-        self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="white", font=my_font)
-        self.canvas.create_text(30, 100, text="Feet", anchor="nw", fill="#faff00", font=my_font)
+        feet_entry.place(x=120, y=100, width=135)
+        self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 100, text="Feet", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.inches_var = tk.StringVar()
         self.inches_var.trace_add("write", self.convert_from_inches)
         inches_entry = tk.Entry(self.window, textvariable=self.inches_var, font=my_font)
-        inches_entry.place(x=120, y=70)
-        self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="white", font=my_font)
-        self.canvas.create_text(30, 70, text="Inches", anchor="nw", fill="#faff00", font=my_font)
+        inches_entry.place(x=120, y=70, width=135)
+        self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 70, text="Inches", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.cm_var = tk.StringVar()
         self.cm_var.trace_add("write", self.convert_from_cm)
         cm_entry = tk.Entry(self.window, textvariable=self.cm_var, font=my_font)
-        cm_entry.place(x=120, y=10)
-        self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="white", font=my_font)
-        self.canvas.create_text(30, 10, text="Centimeters", anchor="nw", fill="#faff00", font=my_font)
+        cm_entry.place(x=120, y=10, width=135)
+        self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 10, text="Centimeters", anchor="nw", fill="#FFFFFF", font=my_font)
 
 #clearing fields with selected exeption
     def clear_except(self, field_to_keep):
@@ -169,7 +169,7 @@ class TimeConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Time Converter")
-        self.window.geometry("250x225")
+        self.window.geometry("265x508+858+60")
         self.updating = False
 
         self.seconds_var = tk.StringVar()
@@ -394,7 +394,7 @@ class TemperatureConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Temperature Converter")
-        self.window.geometry("250x100")
+        self.window.geometry("265x508+858+60")
         self.updating = False
 
         self.celsius_var = tk.StringVar()
@@ -484,7 +484,8 @@ class DataConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Data Converter")
-        self.window.geometry("250x300")
+        self.window.geometry("265x508+858+60")
+
         self.updating = False
 
         self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
@@ -495,44 +496,44 @@ class DataConverter:
         self.bits_var = tk.StringVar()
         self.bits_var.trace_add("write", self.convert_from_bits)
         bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font)
-        bits_entry.place(x=100, y=10)
-        
-        self.canvas.create_text(10, 10, text="Bits", anchor="nw", fill="white", font=my_font)
+        bits_entry.place(x=110, y=10)
+        self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 10, text="Bits", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.bytes_var = tk.StringVar()
         self.bytes_var.trace_add("write", self.convert_from_bytes)
         bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font)
-        bytes_entry.place(x=100, y=40)
-        
-        self.canvas.create_text(10, 40, text="Bytes", anchor="nw", fill="white", font=my_font)
+        bytes_entry.place(x=110, y=40)
+        self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 40, text="Bytes", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.kb_var = tk.StringVar()
         self.kb_var.trace_add("write", self.convert_from_kb)
         kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font)
-        kb_entry.place(x=100, y=70)
-        
-        self.canvas.create_text(10, 70, text="Kilobytes", anchor="nw", fill="white", font=my_font)
+        kb_entry.place(x=110, y=70)
+        self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 70, text="Kilobytes", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.mb_var = tk.StringVar()
         self.mb_var.trace_add("write", self.convert_from_mb)
         mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font)
-        mb_entry.place(x=100, y=100)
-        
-        self.canvas.create_text(10, 100, text="Megabytes", anchor="nw", fill="white", font=my_font)
+        mb_entry.place(x=110, y=100)
+        self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 100, text="Megabytes", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.gb_var = tk.StringVar()
         self.gb_var.trace_add("write", self.convert_from_gb)
         gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font)
-        gb_entry.place(x=100, y=130)
-        
-        self.canvas.create_text(10, 130, text="Gigabytes", anchor="nw", fill="white", font=my_font)
+        gb_entry.place(x=110, y=130)
+        self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 130, text="Gigabytes", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.tb_var = tk.StringVar()
         self.tb_var.trace_add("write", self.convert_from_tb)
         tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font)
-        tb_entry.place(x=100, y=160)
-        
-        self.canvas.create_text(10, 160, text="Terabytes", anchor="nw", fill="white", font=my_font)
+        tb_entry.place(x=110, y=160)
+        self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 160, text="Terabytes", anchor="nw", fill="#FFFFFF", font=my_font)
 
     def clear_except(self, field_to_keep):
         fields = [
@@ -663,7 +664,7 @@ class WeightConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Weight Converter")
-        self.window.geometry("250x250")
+        self.window.geometry("265x508+858+60")
         self.updating = False
 
         self.microgram_var = tk.StringVar()
@@ -823,7 +824,7 @@ class MainMenu:
         # Widgets
         self.window = window
         self.window.title("Main Menu")
-        self.window.geometry("750x500")
+        self.window.geometry("750x500+100+60")
         self.window.configure(bg="blue") ; self.window.resizable(False, False)
         
         global my_font
