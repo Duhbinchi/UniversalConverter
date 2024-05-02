@@ -1,21 +1,23 @@
 """
-Version 2.1 Notes
+Version 5 Notes
 
 x Done
 - Used Image Backgrounds and Buttons for UI design
-
-x Goals To Do
-- Add comma separators to the numbers
-- Functions for:
+- Set Window Open Position
 -- speed converter class
 -- volume coverter class
+
+x Goals To Do
+- designing
 - add symbols to the labels (unicode / unit of measurement)
-- Icon bitmap for the window icons
+- icon bitmap for the window icons
 
 x Ideas Only
+- Binary to Decimal Converter and Hexadecimal Converter etc.
 - In the main menu class, load all the images to be used later as background images for the other windows
 - Enable TKinter to download images from the internet for the main menu background
 - maybe different bg image appropriate for each converter class?
+- Add comma separators to the numbers
 - Apply this logic to the other converter classes (show commas but disregard them when converting)
     try:
         gb_str = self.gb_var.get().replace(',', '')
@@ -488,7 +490,7 @@ class DataConverter:
 
         self.updating = False
 
-        self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
+        self.bg_img = PhotoImage(file=get_image_path('yellow3.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
@@ -809,14 +811,285 @@ class WeightConverter:
                 pass
         self.updating = False
 
-
-# Not Finished
+# I show
 class SpeedConverter:
-    ...
+    def __init__(self, window):
+        self.window = window
+        self.window.title("Speed Converter")
+        self.window.geometry("265x508+858+60")
 
-# Not Finished
+        self.updating = False
+
+        self.mps_var = tk.StringVar()
+        self.mps_var.trace_add("write", self.convert_from_mps)
+        mps_entry = tk.Entry(self.window, textvariable=self.mps_var)
+        mps_entry.place(x=100, y=40)
+        mps_label = tk.Label(self.window, text="Meters/s")
+        mps_label.place(x=10, y=40)
+
+        self.kph_var = tk.StringVar()
+        self.kph_var.trace_add("write", self.convert_from_kph)
+        kph_entry = tk.Entry(self.window, textvariable=self.kph_var)
+        kph_entry.place(x=100, y=100)
+
+        kph_label = tk.Label(self.window, text="Kilometers/h")
+        kph_label.place(x=10, y=100)
+
+        self.mph_var = tk.StringVar()
+        self.mph_var.trace_add("write", self.convert_from_mph)
+        mph_entry = tk.Entry(self.window, textvariable=self.mph_var)
+        mph_entry.place(x=100, y=70)
+
+        mph_label = tk.Label(self.window, text="Miles/h")
+        mph_label.place(x=10, y=70)
+        
+        self.kts_var = tk.StringVar()
+        self.kts_var.trace_add("write", self.convert_from_kts)
+        kts_entry = tk.Entry(self.window, textvariable=self.kts_var)
+        kts_entry.place(x=100, y=10)
+
+
+        kts_label = tk.Label(self.window, text="Knots")
+        kts_label.place(x=10, y=10)
+
+        self.fps_var = tk.StringVar()
+        self.fps_var.trace_add("write", self.convert_from_fps)
+        fps_entry = tk.Entry(self.window, textvariable=self.fps_var)
+        fps_entry.place(x=100, y=130)
+
+        fps_label = tk.Label(self.window, text="Feet/s")
+        fps_label.place(x=10, y=130)
+
+    def clear_except(self, field_to_keep):
+        fields = [self.mps_var, self.kph_var, self.mph_var, self.kts_var, self.fps_var]
+        for field in fields:
+            if field is not field_to_keep:
+                field.set("")
+
+    # Converting from other units
+    def convert_from_mps(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.mps_var.get() == "":
+            self.clear_except(self.mps_var)
+        else:
+            try:
+                mps = float(self.mps_var.get())
+                self.kph_var.set(f"{mps * 3.6:.2f}")
+                self.mph_var.set(f"{mps * 2.237:.2f}")
+                self.kts_var.set(f"{mps * 1.944:.2f}")
+                self.fps_var.set(f"{mps * 3.28084:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_kph(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.kph_var.get() == "":
+            self.clear_except(self.kph_var)
+        else:
+            try:
+                kph = float(self.kph_var.get())
+                self.mps_var.set(f"{kph / 3.6:.2f}")
+                self.mph_var.set(f"{kph * 0.621371:.2f}")
+                self.kts_var.set(f"{kph * 0.539957:.2f}")
+                self.fps_var.set(f"{kph * 3.28084 / 1.60934:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_mph(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.mph_var.get() == "":
+            self.clear_except(self.mph_var)
+        else:
+            try:
+                mph = float(self.mph_var.get())
+                self.mps_var.set(f"{mph * 0.44704:.2f}")
+                self.kph_var.set(f"{mph * 1.60934:.2f}")
+                self.kts_var.set(f"{mph * 0.868976:.2f}")
+                self.fps_var.set(f"{mph * 2.237:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_kts(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.kts_var.get() == "":
+            self.clear_except(self.kts_var)
+        else:
+            try:
+                kts = float(self.kts_var.get())
+                self.mps_var.set(f"{kts * 1.68781:.2f}")
+                self.kph_var.set(f"{kts * 1.852:.2f}")
+                self.mph_var.set(f"{kts * 1.15078:.2f}")
+                self.fps_var.set(f"{kts * 3.28084 * 1.68781:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_fps(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.fps_var.get() == "":
+            self.clear_except(self.fps_var)
+        else:
+            try:
+                fps = float(self.fps_var.get())
+                self.mps_var.set(f"{fps * 0.3048:.2f}")
+                self.kph_var.set(f"{fps * 0.44704:.2f}")
+                self.mph_var.set(f"{fps * 0.681818:.2f}")
+                self.kts_var.set(f"{fps * 0.592484:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+
 class VolumeConverter:
-    ...
+    def __init__(self, window):
+        self.window = window
+        self.window.title("Volume Converter")
+        self.window.geometry("265x508+858+60")
+
+        self.updating = False
+
+        self.ml_var = tk.StringVar()
+        self.ml_var.trace_add("write", self.convert_from_ml)
+        ml_entry = tk.Entry(self.window, textvariable=self.ml_var)
+        ml_entry.place(x=100, y=10)
+        
+        ml_label = tk.Label(self.window, text="Milliliter (ml)")
+        ml_label.place(x=10, y=10)
+
+        self.cl_var = tk.StringVar()
+        self.cl_var.trace_add("write", self.convert_from_cl)
+        cl_entry = tk.Entry(self.window, textvariable=self.cl_var)
+        cl_entry.place(x=100, y=40)
+
+        cl_label = tk.Label(self.window, text="Centiliter (cl)")
+        cl_label.place(x=10, y=40)
+
+        self.dl_var = tk.StringVar()
+        self.dl_var.trace_add("write", self.convert_from_dl)
+        dl_entry = tk.Entry(self.window, textvariable=self.dl_var)
+        dl_entry.place(x=100, y=70)
+        dl_label = tk.Label(self.window, text="Deciliter (dl)")
+        dl_label.place(x=10, y=70)
+
+        self.l_var = tk.StringVar()
+        self.l_var.trace_add("write", self.convert_from_l)
+        l_entry = tk.Entry(self.window, textvariable=self.l_var)
+        l_entry.place(x=100, y=100)
+        l_label = tk.Label(self.window, text="Liter (l)")
+        l_label.place(x=10, y=100)
+
+        self.kl_var = tk.StringVar()
+        self.kl_var.trace_add("write", self.convert_from_kl)
+        kl_entry = tk.Entry(self.window, textvariable=self.kl_var)
+        kl_entry.place(x=100, y=130)
+        kl_label = tk.Label(self.window, text="Kiloliter (kl)")
+        kl_label.place(x=10, y=130)
+
+        self.updating = False
+
+    def clear_except(self, field_to_keep):
+        fields = [self.ml_var, self.cl_var, self.dl_var, self.l_var, self.kl_var]
+        for field in fields:
+            if field is not field_to_keep:
+                field.set("")
+
+    def convert_from_ml(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.ml_var.get() == "":
+            self.clear_except(self.ml_var)
+        else:
+            try:
+                ml = float(self.ml_var.get())
+                self.cl_var.set(f"{ml / 10:.2f}")
+                self.dl_var.set(f"{ml / 100:.2f}")
+                self.l_var.set(f"{ml / 1000:.2f}")
+                self.kl_var.set(f"{ml / 1000000:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_cl(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.cl_var.get() == "":
+            self.clear_except(self.cl_var)
+        else:
+            try:
+                cl = float(self.cl_var.get())
+                self.ml_var.set(f"{cl * 10:.2f}")
+                self.dl_var.set(f"{cl / 10:.2f}")
+                self.l_var.set(f"{cl / 100:.2f}")
+                self.kl_var.set(f"{cl / 10000:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_dl(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.dl_var.get() == "":
+            self.clear_except(self.dl_var)
+        else:
+            try:
+                dl = float(self.dl_var.get())
+                self.ml_var.set(f"{dl * 100:.2f}")
+                self.cl_var.set(f"{dl * 10:.2f}")
+                self.l_var.set(f"{dl / 10:.2f}")
+                self.kl_var.set(f"{dl / 100000:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_l(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.l_var.get() == "":
+            self.clear_except(self.l_var)
+        else:
+            try:
+                l = float(self.l_var.get())
+                self.ml_var.set(f"{l * 1000:.2f}")
+                self.cl_var.set(f"{l * 100:.2f}")
+                self.dl_var.set(f"{l * 10:.2f}")
+                self.kl_var.set(f"{l / 1000:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_kl(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.kl_var.get() == "":
+            self.clear_except(self.kl_var)
+        else:
+            try:
+                kl = float(self.kl_var.get())
+                self.ml_var.set(f"{kl * 1000000:.2f}")
+                self.cl_var.set(f"{kl * 100000:.2f}")
+                self.dl_var.set(f"{kl * 10000:.2f}")
+                self.l_var.set(f"{kl * 1000:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
 
 # Not Finished
 class MainMenu:
@@ -852,6 +1125,8 @@ class MainMenu:
         self.temperature_converter_window = None
         self.data_converter_window = None
         self.weight_converter_window = None
+        self.speed_converter_window = None
+        self.volume_converter_window = None
 
         # Length Converter Button
         length_image_path = get_image_path('length2.png')
@@ -1001,19 +1276,29 @@ class MainMenu:
         self.weight_converter_window.destroy()
         self.weight_converter_window = None
 
-    # To be coded...
     def open_speed_converter(self):
-        pass
+        if not self.speed_converter_window:
+            self.speed_converter_window=tk.Toplevel(self.window)
+            self.speed_converter_window.protocol("WM_DELETE_WINDOW", self.on_closing_speed_converter)
+            SpeedConverter(self.speed_converter_window)
+        else:
+            self.speed_converter_window.deiconify()
 
     def on_closing_speed_converter(self):
-        pass
+        self.speed_converter_window.destroy()
+        self.speed_converter_window = None
 
     def open_volume_converter(self):
-        pass
+        if not self.volume_converter_window:
+            self.volume_converter_window = tk.Toplevel(self.window)
+            self.volume_converter_window.protocol("WM_DELETE_WINDOW", self.on_closing_volume_converter)
+            VolumeConverter(self.volume_converter_window)
+        else:
+            self.volume_converter_window.deiconify()
 
     def on_closing_volume_converter(self):
-        pass
-
+        self.volume_converter_window.destroy()
+        self.volume_converter_window = None
 
 # Run the application
 window = tk.Tk()
