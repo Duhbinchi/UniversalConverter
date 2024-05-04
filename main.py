@@ -61,7 +61,7 @@ class LengthConverter:
         # Set the updating flag to False to prevent the convert_from_* methods from running when the text variables are updated
         self.updating = False
 
-        # Create the widgets
+        # Create the widgets for Meters
         self.meters_var = tk.StringVar()
         self.meters_var.trace_add("write", self.convert_from_meters)
         meter_entry = tk.Entry(self.window, textvariable=self.meters_var, font=my_font)
@@ -70,7 +70,7 @@ class LengthConverter:
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Meters  \u33A1", anchor="nw", fill="#FFFFFF", font=my_font)
 
-        # Repeat for the other variables
+        # Feet
         self.feet_var = tk.StringVar()
         self.feet_var.trace_add("write", self.convert_from_feet)
         feet_entry = tk.Entry(self.window, textvariable=self.feet_var, font=my_font)
@@ -78,6 +78,7 @@ class LengthConverter:
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Feet \u00B2", anchor="nw", fill="#FFFFFF", font=my_font)
 
+        # Inches
         self.inches_var = tk.StringVar()
         self.inches_var.trace_add("write", self.convert_from_inches)
         inches_entry = tk.Entry(self.window, textvariable=self.inches_var, font=my_font)
@@ -85,6 +86,7 @@ class LengthConverter:
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Inches \u2033", anchor="nw", fill="#FFFFFF", font=my_font)
 
+        # Centimeters
         self.cm_var = tk.StringVar()
         self.cm_var.trace_add("write", self.convert_from_cm)
         cm_entry = tk.Entry(self.window, textvariable=self.cm_var, font=my_font)
@@ -92,7 +94,7 @@ class LengthConverter:
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Centimeters \u339D", anchor="nw", fill="#FFFFFF", font=my_font)
 
-#clearing fields with selected exeption
+    #clearing fields with selected exeption
     def clear_except(self, field_to_keep):
         fields = [self.meters_var, self.feet_var, self.inches_var, self.cm_var]
         for field in fields:
@@ -101,13 +103,19 @@ class LengthConverter:
 
 #converting from other units
     def convert_from_meters(self, *args):
+        # So that the current entryfield is not updated while the other entryfields are being updated
+        # Example, if the user types in the meters entryfield, only the other entryfields will be updated
+        # If this function did not have the updating flag, the other entryfields will be updated and the meters entryfield will be updated again
         if self.updating:
             return
         self.updating = True
+
+        # If the meters entryfield is empty, clear the other entryfields
         if self.meters_var.get() == "":
             self.clear_except(self.meters_var)
 
         else:
+            # Conversion calculations
             try:
                 meters = float(self.meters_var.get())
                 self.feet_var.set(f"{meters * 3.28084:.2f}")
