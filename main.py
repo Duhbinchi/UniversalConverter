@@ -9,10 +9,8 @@ x Done
 - added unicode symbols (baka male lol)
 - add symbols to the labels (unicode / unit of measurement)
 
-
-
 x Goals To Do
-- designing
+
 - icon bitmap for the window icons
 
 x Ideas Only
@@ -1021,7 +1019,6 @@ class VolumeConverter:
         kl_entry.place(x=120, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text=f"Kiloliters k" + "\u0332" + "L", anchor="nw", fill="#FFFFFF", font=my_font)
-
 
         self.updating = False
 
