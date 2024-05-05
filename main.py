@@ -1,35 +1,4 @@
-"""
-Version 5.5 Notes
-
-x Done
-- Used Image Backgrounds and Buttons for UI design
-- Set Window Open Position
--- speed converter class
--- volume coverter class
-- added unicode symbols (baka male lol)
-- add symbols to the labels (unicode / unit of measurement)
-
-
-
-x Goals To Do
-- designing
-- icon bitmap for the window icons
-
-x Ideas Only
-- Binary to Decimal Converter and Hexadecimal Converter etc.
-- In the main menu class, load all the images to be used later as background images for the other windows
-- Enable TKinter to download images from the internet for the main menu background
-- maybe different bg image appropriate for each converter class?
-- Add comma separators to the numbers
-- Apply this logic to the other converter classes (show commas but disregard them when converting)
-    try:
-        gb_str = self.gb_var.get().replace(',', '')
-        gb = float(gb_str)
-        self.tb_var.set(f"{gb / 1024:,.4f}")
-    except ValueError:
-        pass
-
-"""
+# Group 7 - Alpha Version
 
 import tkinter as tk
 from tkinter import PhotoImage
@@ -55,6 +24,10 @@ class LengthConverter:
         # Load the background image
         self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
 
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
+
         # Create a canvas
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
@@ -67,7 +40,7 @@ class LengthConverter:
         self.meters_var = tk.StringVar()
         self.meters_var.trace_add("write", self.convert_from_meters)
         meter_entry = tk.Entry(self.window, textvariable=self.meters_var, font=my_font)
-        meter_entry.place(x=120, y=40, width=135)
+        meter_entry.place(x=123, y=40, width=135)
         # Use create_text() instead of a Label
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Meters  \u33A1", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -76,21 +49,21 @@ class LengthConverter:
         self.feet_var = tk.StringVar()
         self.feet_var.trace_add("write", self.convert_from_feet)
         feet_entry = tk.Entry(self.window, textvariable=self.feet_var, font=my_font)
-        feet_entry.place(x=120, y=100, width=135)
+        feet_entry.place(x=123, y=100, width=135)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Feet \u00B2", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.inches_var = tk.StringVar()
         self.inches_var.trace_add("write", self.convert_from_inches)
         inches_entry = tk.Entry(self.window, textvariable=self.inches_var, font=my_font)
-        inches_entry.place(x=120, y=70, width=135)
+        inches_entry.place(x=123, y=70, width=135)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Inches \u2033", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.cm_var = tk.StringVar()
         self.cm_var.trace_add("write", self.convert_from_cm)
         cm_entry = tk.Entry(self.window, textvariable=self.cm_var, font=my_font)
-        cm_entry.place(x=120, y=10, width=135)
+        cm_entry.place(x=123, y=10, width=135)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Centimeters \u339D", anchor="nw", fill="#FFFFFF", font=my_font)
 
@@ -176,6 +149,10 @@ class TimeConverter:
         self.window.title("Time Converter")
         self.window.geometry("265x508+858+60")
         self.updating = False
+        
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
 
         self.bg_img = PhotoImage(file=get_image_path('yellow3.png'))
         self.canvas = tk.Canvas(self.window)
@@ -400,6 +377,10 @@ class TemperatureConverter:
         self.window.geometry("265x508+858+60")
         self.updating = False
 
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
+
         self.bg_img = PhotoImage(file=get_image_path('yellow3.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
@@ -408,7 +389,7 @@ class TemperatureConverter:
         # Celsius to Fahrenheit: (°C × 9/5) + 32 = °F
         self.celsius_var = tk.StringVar()
         self.celsius_var.trace_add("write", self.convert_from_celsius)
-        celsius_entry = tk.Entry(self.window, textvariable=self.celsius_var, width=23)
+        celsius_entry = tk.Entry(self.window, textvariable=self.celsius_var, width=22)
         celsius_entry.place(x=120, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Celsius \u00B0C", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -416,7 +397,7 @@ class TemperatureConverter:
         # Fahrenheit to Celsius: (°F − 32) x 5/9 = °C
         self.fahrenheit_var = tk.StringVar()
         self.fahrenheit_var.trace_add("write", self.convert_from_fahrenheit)
-        fahrenheit_entry = tk.Entry(self.window, textvariable=self.fahrenheit_var, width=23)
+        fahrenheit_entry = tk.Entry(self.window, textvariable=self.fahrenheit_var, width=22)
         fahrenheit_entry.place(x=120, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Fahrenheit \u00B0F", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -424,7 +405,7 @@ class TemperatureConverter:
         # Celsius to Kelvin: K = °C + 273.15
         self.kelvin_var = tk.StringVar()
         self.kelvin_var.trace_add("write", self.convert_from_kelvin)
-        kelvin_entry = tk.Entry(self.window, textvariable=self.kelvin_var, width=23)
+        kelvin_entry = tk.Entry(self.window, textvariable=self.kelvin_var, width=22)
         kelvin_entry.place(x=120, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Kelvin \u212A", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -496,6 +477,11 @@ class DataConverter:
 
         self.updating = False
 
+
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
+
         self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
@@ -503,43 +489,43 @@ class DataConverter:
 
         self.bits_var = tk.StringVar()
         self.bits_var.trace_add("write", self.convert_from_bits)
-        bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font)
-        bits_entry.place(x=120, y=10)
+        bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font, width = 17)
+        bits_entry.place(x=135, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Bits \u00B5b", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.bytes_var = tk.StringVar()
         self.bytes_var.trace_add("write", self.convert_from_bytes)
-        bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font)
-        bytes_entry.place(x=120, y=40)
+        bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font, width = 17)
+        bytes_entry.place(x=135, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Bytes \u00B5B", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.kb_var = tk.StringVar()
         self.kb_var.trace_add("write", self.convert_from_kb)
-        kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font)
-        kb_entry.place(x=120, y=70)
+        kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font, width = 17)
+        kb_entry.place(x=135, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Kilobytes \u00B5KB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.mb_var = tk.StringVar()
         self.mb_var.trace_add("write", self.convert_from_mb)
-        mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font)
-        mb_entry.place(x=120, y=100)
+        mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font, width = 17)
+        mb_entry.place(x=135, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Megabytes \u00B5MB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.gb_var = tk.StringVar()
         self.gb_var.trace_add("write", self.convert_from_gb)
-        gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font)
-        gb_entry.place(x=120, y=130)
+        gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font, width = 17)
+        gb_entry.place(x=135, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Gigabytes \u00B5GB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.tb_var = tk.StringVar()
         self.tb_var.trace_add("write", self.convert_from_tb)
-        tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font)
-        tb_entry.place(x=120, y=160)
+        tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font, width = 17)
+        tb_entry.place(x=135, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 160, text="Terabytes \u00B5TB", anchor="nw", fill="#FFFFFF", font=my_font)
 
@@ -675,6 +661,9 @@ class WeightConverter:
         self.window.geometry("265x508+858+60")
         self.updating = False
 
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
         self.bg_img = PhotoImage(file=get_image_path('yellow4.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
@@ -683,40 +672,40 @@ class WeightConverter:
         # Microgram
         self.microgram_var = tk.StringVar()
         self.microgram_var.trace_add("write", self.convert_from_microgram)
-        microgram_entry = tk.Entry(self.window, textvariable=self.microgram_var, font=my_font, width=20)
-        microgram_entry.place(x=120, y=10)
+        microgram_entry = tk.Entry(self.window, textvariable=self.microgram_var, font=my_font, width=18)
+        microgram_entry.place(x=128, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Microgram \u03BCg", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Milligram
         self.milligram_var = tk.StringVar()
         self.milligram_var.trace_add("write", self.convert_from_milligram)
-        milligram_entry = tk.Entry(self.window, textvariable=self.milligram_var, font=my_font, width=20)
-        milligram_entry.place(x=120, y=40)
+        milligram_entry = tk.Entry(self.window, textvariable=self.milligram_var, font=my_font, width=18)
+        milligram_entry.place(x=128, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Milligram \u00B5mg", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Gram
         self.gram_var = tk.StringVar()
         self.gram_var.trace_add("write", self.convert_from_gram)
-        gram_entry = tk.Entry(self.window, textvariable=self.gram_var, font=my_font, width=20)
-        gram_entry.place(x=120, y=70)
+        gram_entry = tk.Entry(self.window, textvariable=self.gram_var, font=my_font, width=18)
+        gram_entry.place(x=128, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Gram \u0067", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Kilogram
         self.kilogram_var = tk.StringVar()
         self.kilogram_var.trace_add("write", self.convert_from_kilogram)
-        kilogram_entry = tk.Entry(self.window, textvariable=self.kilogram_var, font=my_font, width=20)
-        kilogram_entry.place(x=120, y=100)
+        kilogram_entry = tk.Entry(self.window, textvariable=self.kilogram_var, font=my_font, width=18)
+        kilogram_entry.place(x=128, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Kilogram \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Metric Ton
         self.metric_ton_var = tk.StringVar()
         self.metric_ton_var.trace_add("write", self.convert_from_metric_ton)
-        metric_ton_entry = tk.Entry(self.window, textvariable=self.metric_ton_var, font=my_font, width=20)
-        metric_ton_entry.place(x=120, y=130)
+        metric_ton_entry = tk.Entry(self.window, textvariable=self.metric_ton_var, font=my_font, width=18)
+        metric_ton_entry.place(x=128, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Metric Ton \u2126", anchor="nw", fill="#FFFFFF", font=my_font)
 
@@ -829,6 +818,9 @@ class SpeedConverter:
         self.window.title("Speed Converter")
         self.window.geometry("265x508+858+60")
 
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
         self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
@@ -997,12 +989,17 @@ class SpeedConverter:
             except ValueError:
                 pass
         self.updating = False
+
+
 class VolumeConverter:
     def __init__(self, window):
         self.window = window
         self.window.title("Volume Converter")
         self.window.geometry("265x508+858+60")
 
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
         self.bg_image = PhotoImage(file=get_image_path('yellow4.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
@@ -1013,7 +1010,7 @@ class VolumeConverter:
         # Milliliters
         self.ml_var = tk.StringVar()
         self.ml_var.trace_add("write", self.convert_from_ml)
-        ml_entry = tk.Entry(self.window, textvariable=self.ml_var, font=my_font, width=20)
+        ml_entry = tk.Entry(self.window, textvariable=self.ml_var, font=my_font, width=19)
         ml_entry.place(x=120, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Milliliters \u03BCl", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -1021,7 +1018,7 @@ class VolumeConverter:
         # Centiliters
         self.cl_var = tk.StringVar()
         self.cl_var.trace_add("write", self.convert_from_cl)
-        cl_entry = tk.Entry(self.window, textvariable=self.cl_var, font=my_font, width=20)
+        cl_entry = tk.Entry(self.window, textvariable=self.cl_var, font=my_font, width=19)
         cl_entry.place(x=120, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Centiliters \u00B5cl", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -1029,7 +1026,7 @@ class VolumeConverter:
         # Deciliters
         self.dl_var = tk.StringVar()
         self.dl_var.trace_add("write", self.convert_from_dl)
-        dl_entry = tk.Entry(self.window, textvariable=self.dl_var, font=my_font, width=20)
+        dl_entry = tk.Entry(self.window, textvariable=self.dl_var, font=my_font, width=19)
         dl_entry.place(x=120, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Deciliters \u00B7dl", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -1037,7 +1034,7 @@ class VolumeConverter:
         # Liters
         self.l_var = tk.StringVar()
         self.l_var.trace_add("write", self.convert_from_l)
-        l_entry = tk.Entry(self.window, textvariable=self.l_var, font=my_font, width=20)
+        l_entry = tk.Entry(self.window, textvariable=self.l_var, font=my_font, width=19)
         l_entry.place(x=120, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Liters \u004C", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -1045,10 +1042,10 @@ class VolumeConverter:
         # Kiloliters
         self.kl_var = tk.StringVar()
         self.kl_var.trace_add("write", self.convert_from_kl)
-        kl_entry = tk.Entry(self.window, textvariable=self.kl_var, font=my_font, width=20)
+        kl_entry = tk.Entry(self.window, textvariable=self.kl_var, font=my_font, width=19)
         kl_entry.place(x=120, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 130, text="Kiloliters \k" + "\u0332" + "L", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 130, text="Kiloliters k" + "\u0332" + "L", anchor="nw", fill="#FFFFFF", font=my_font)
 
 
         self.updating = False
@@ -1144,6 +1141,7 @@ class VolumeConverter:
                 pass
         self.updating = False
 
+
 class VoltageConverter:
     def __init__(self, window):
         self.window = window
@@ -1151,7 +1149,10 @@ class VoltageConverter:
         self.window.geometry("265x508+858+60")
         self.updating = False
 
-        self.bg_img = PhotoImage(file=get_image_path('yellow4.png'))
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
+        self.bg_img = PhotoImage(file=get_image_path('yellow3.png'))
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
@@ -1159,51 +1160,50 @@ class VoltageConverter:
         # Nanovolts
         self.nanov_var = tk.StringVar()
         self.nanov_var.trace_add("write", self.convert_from_nanov)
-        nanovolts_entry = tk.Entry(self.window, textvariable=self.nanov_var, font=my_font, width=20)
-        nanovolts_entry.place(x=120, y=10)
+        nanovolts_entry = tk.Entry(self.window, textvariable=self.nanov_var, font=my_font, width=18)
+        nanovolts_entry.place(x=126, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 10, text="Nanovolts \u03BCg", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 10, text="Nanovolts nV", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Microvolts
         self.microv_var = tk.StringVar()
         self.microv_var.trace_add("write", self.convert_from_microv)
-        microvolts_entry = tk.Entry(self.window, textvariable=self.microv_var, font=my_font, width=20)
-        microvolts_entry.place(x=120, y=40)
+        microvolts_entry = tk.Entry(self.window, textvariable=self.microv_var, font=my_font, width=18)
+        microvolts_entry.place(x=126, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 40, text="Microvolts \u00B5mg", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 40, text="Microvolts \u03BCV", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Millivolts
         self.milliv_var = tk.StringVar()
         self.milliv_var.trace_add("write", self.convert_from_milliv)
-        millivolts_entry = tk.Entry(self.window, textvariable=self.milliv_var, font=my_font, width=20)
-        millivolts_entry.place(x=120, y=70)
+        millivolts_entry = tk.Entry(self.window, textvariable=self.milliv_var, font=my_font, width=18)
+        millivolts_entry.place(x=126, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 70, text="Millivolts \u0067", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 70, text="Millivolts mV", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Volts
         self.volts_var = tk.StringVar()
         self.volts_var.trace_add("write", self.convert_from_volts)
-        volts_entry = tk.Entry(self.window, textvariable=self.volts_var, font=my_font, width=20)
-        volts_entry.place(x=120, y=100)
+        volts_entry = tk.Entry(self.window, textvariable=self.volts_var, font=my_font, width=18)
+        volts_entry.place(x=126, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 100, text="Volts \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 100, text="Volts V", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Kilovolts
         self.kilov_var = tk.StringVar()
         self.kilov_var.trace_add("write", self.convert_from_kilov)
-        kilovolts_entry = tk.Entry(self.window, textvariable=self.kilov_var, font=my_font, width=20)
-        kilovolts_entry.place(x=120, y=130)
+        kilovolts_entry = tk.Entry(self.window, textvariable=self.kilov_var, font=my_font, width=18)
+        kilovolts_entry.place(x=126, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 130, text="Kilovolts \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 130, text="Kilovolts kV", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Megavolts
         self.megav_var = tk.StringVar()
         self.megav_var.trace_add("write", self.convert_from_megav)
-        megavolts_entry = tk.Entry(self.window, textvariable=self.megav_var, font=my_font, width=20)
-        megavolts_entry.place(x=120, y=160)
+        megavolts_entry = tk.Entry(self.window, textvariable=self.megav_var, font=my_font, width=18)
+        megavolts_entry.place(x=126, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 160, text="Megavolts \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
-
+        self.canvas.create_text(30, 160, text="Megavolts MV", anchor="nw", fill="#FFFFFF", font=my_font)
 
         
     def clear_except(self, field_to_keep):
@@ -1215,6 +1215,7 @@ class VoltageConverter:
             self.kilov_var,
             self.megav_var,
         ]
+
         for field in fields:
             if field is not field_to_keep:
                 field.set("")
@@ -1347,7 +1348,9 @@ class MainMenu:
         self.window.geometry("750x500+100+60")
         self.window.configure(bg="blue") ; self.window.resizable(False, False)
 
-
+        # Set Icon
+        icon_logo = get_image_path('logo.ico')
+        self.window.iconbitmap(icon_logo)
         
         global my_font
         my_font = ("Nirmala UI", 10, "bold")
@@ -1356,7 +1359,7 @@ class MainMenu:
         my_font_thin = ("Consolas", 10, "bold")
 
         # Get the directory of the script
-        bg_image_path = get_image_path('menu2.png')
+        bg_image_path = get_image_path('menu3.png')
 
         # Load the image
         self.bg_image = PhotoImage(file=bg_image_path)
@@ -1464,7 +1467,7 @@ class MainMenu:
         volume_converter_button.place(x=235, y=310, width=100, height=50)
         
         # Voltage Converter Button
-        volts_image_path = get_image_path('data.png')
+        volts_image_path = get_image_path('voltage.png')
         self.volts_image = PhotoImage(file=volts_image_path)
         volts_converter_button = tk.Button(
             self.window, 
