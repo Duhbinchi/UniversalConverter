@@ -1,5 +1,6 @@
+main.py
 """
-Version 5 Notes
+Version 5.5 Notes
 
 x Done
 - Used Image Backgrounds and Buttons for UI design
@@ -9,8 +10,10 @@ x Done
 - added unicode symbols (baka male lol)
 - add symbols to the labels (unicode / unit of measurement)
 
-x Goals To Do
 
+
+x Goals To Do
+- designing
 - icon bitmap for the window icons
 
 x Ideas Only
@@ -61,7 +64,7 @@ class LengthConverter:
         # Set the updating flag to False to prevent the convert_from_* methods from running when the text variables are updated
         self.updating = False
 
-        # Create the widgets for Meters
+        # Create the widgets
         self.meters_var = tk.StringVar()
         self.meters_var.trace_add("write", self.convert_from_meters)
         meter_entry = tk.Entry(self.window, textvariable=self.meters_var, font=my_font)
@@ -70,7 +73,7 @@ class LengthConverter:
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Meters  \u33A1", anchor="nw", fill="#FFFFFF", font=my_font)
 
-        # Feet
+        # Repeat for the other variables
         self.feet_var = tk.StringVar()
         self.feet_var.trace_add("write", self.convert_from_feet)
         feet_entry = tk.Entry(self.window, textvariable=self.feet_var, font=my_font)
@@ -78,7 +81,6 @@ class LengthConverter:
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Feet \u00B2", anchor="nw", fill="#FFFFFF", font=my_font)
 
-        # Inches
         self.inches_var = tk.StringVar()
         self.inches_var.trace_add("write", self.convert_from_inches)
         inches_entry = tk.Entry(self.window, textvariable=self.inches_var, font=my_font)
@@ -86,7 +88,6 @@ class LengthConverter:
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Inches \u2033", anchor="nw", fill="#FFFFFF", font=my_font)
 
-        # Centimeters
         self.cm_var = tk.StringVar()
         self.cm_var.trace_add("write", self.convert_from_cm)
         cm_entry = tk.Entry(self.window, textvariable=self.cm_var, font=my_font)
@@ -94,7 +95,7 @@ class LengthConverter:
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Centimeters \u339D", anchor="nw", fill="#FFFFFF", font=my_font)
 
-    #clearing fields with selected exeption
+#clearing fields with selected exeption
     def clear_except(self, field_to_keep):
         fields = [self.meters_var, self.feet_var, self.inches_var, self.cm_var]
         for field in fields:
@@ -103,19 +104,13 @@ class LengthConverter:
 
 #converting from other units
     def convert_from_meters(self, *args):
-        # So that the current entryfield is not updated while the other entryfields are being updated
-        # Example, if the user types in the meters entryfield, only the other entryfields will be updated
-        # If this function did not have the updating flag, the other entryfields will be updated and the meters entryfield will be updated again
         if self.updating:
             return
         self.updating = True
-
-        # If the meters entryfield is empty, clear the other entryfields
         if self.meters_var.get() == "":
             self.clear_except(self.meters_var)
 
         else:
-            # Conversion calculations
             try:
                 meters = float(self.meters_var.get())
                 self.feet_var.set(f"{meters * 3.28084:.2f}")
@@ -190,49 +185,49 @@ class TimeConverter:
 
         self.seconds_var = tk.StringVar()
         self.seconds_var.trace_add("write", self.convert_from_seconds)
-        seconds_entry = tk.Entry(self.window, textvariable=self.seconds_var, width=25, font=my_font)
+        seconds_entry = tk.Entry(self.window, textvariable=self.seconds_var, width=25)
         seconds_entry.place(x=100, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Seconds", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.minutes_var = tk.StringVar()
         self.minutes_var.trace_add("write", self.convert_from_minutes)
-        minutes_entry = tk.Entry(self.window, textvariable=self.minutes_var, width=25, font=my_font)
+        minutes_entry = tk.Entry(self.window, textvariable=self.minutes_var, width=25)
         minutes_entry.place(x=100, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Minutes", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.hours_var = tk.StringVar()
         self.hours_var.trace_add("write", self.convert_from_hours)
-        hours_entry = tk.Entry(self.window, textvariable=self.hours_var, width=25, font=my_font)
+        hours_entry = tk.Entry(self.window, textvariable=self.hours_var, width=25)
         hours_entry.place(x=100, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Hours", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.days_var = tk.StringVar()
         self.days_var.trace_add("write", self.convert_from_days)
-        days_entry = tk.Entry(self.window, textvariable=self.days_var, width=25, font=my_font)
+        days_entry = tk.Entry(self.window, textvariable=self.days_var, width=25)
         days_entry.place(x=100, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Days", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.weeks_var = tk.StringVar()
         self.weeks_var.trace_add("write", self.convert_from_weeks)
-        weeks_entry = tk.Entry(self.window, textvariable=self.weeks_var, width=25, font=my_font)
+        weeks_entry = tk.Entry(self.window, textvariable=self.weeks_var, width=25)
         weeks_entry.place(x=100, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Weeks", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.months_var = tk.StringVar()
         self.months_var.trace_add("write", self.convert_from_months)
-        months_entry = tk.Entry(self.window, textvariable=self.months_var, width=25, font=my_font)
+        months_entry = tk.Entry(self.window, textvariable=self.months_var, width=25)
         months_entry.place(x=100, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 160, text="Months", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.years_var = tk.StringVar()
         self.years_var.trace_add("write", self.convert_from_years)
-        years_entry = tk.Entry(self.window, textvariable=self.years_var, width=25, font=my_font)
+        years_entry = tk.Entry(self.window, textvariable=self.years_var, width=25)
         years_entry.place(x=100, y=190)
         self.canvas.create_text(10, 190, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 190, text="Years", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -414,7 +409,7 @@ class TemperatureConverter:
         # Celsius to Fahrenheit: (°C × 9/5) + 32 = °F
         self.celsius_var = tk.StringVar()
         self.celsius_var.trace_add("write", self.convert_from_celsius)
-        celsius_entry = tk.Entry(self.window, textvariable=self.celsius_var, width=23, font=my_font)
+        celsius_entry = tk.Entry(self.window, textvariable=self.celsius_var, width=23)
         celsius_entry.place(x=120, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Celsius \u00B0C", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -422,7 +417,7 @@ class TemperatureConverter:
         # Fahrenheit to Celsius: (°F − 32) x 5/9 = °C
         self.fahrenheit_var = tk.StringVar()
         self.fahrenheit_var.trace_add("write", self.convert_from_fahrenheit)
-        fahrenheit_entry = tk.Entry(self.window, textvariable=self.fahrenheit_var, width=23, font=my_font)
+        fahrenheit_entry = tk.Entry(self.window, textvariable=self.fahrenheit_var, width=23)
         fahrenheit_entry.place(x=120, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Fahrenheit \u00B0F", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -430,7 +425,7 @@ class TemperatureConverter:
         # Celsius to Kelvin: K = °C + 273.15
         self.kelvin_var = tk.StringVar()
         self.kelvin_var.trace_add("write", self.convert_from_kelvin)
-        kelvin_entry = tk.Entry(self.window, textvariable=self.kelvin_var, width=23, font=my_font)
+        kelvin_entry = tk.Entry(self.window, textvariable=self.kelvin_var, width=23)
         kelvin_entry.place(x=120, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Kelvin \u212A", anchor="nw", fill="#FFFFFF", font=my_font)
@@ -882,8 +877,15 @@ class SpeedConverter:
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Feet \u00B7s", anchor="nw", fill="#FFFFFF", font=my_font)
 
+        # Meter per second
+        self.ms_var = tk.StringVar()
+        self.ms_var.trace_add("write", self.convert_from_ms)
+        ms_entry = tk.Entry(self.window, textvariable=self.ms_var, font=my_font, width=19)
+        ms_entry.place(x=117, y=160)
+        self.canvas.create_text(10,160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 160, text="Meter \u00B7s", anchor="nw", fill="#FFFFFF", font=my_font)
     def clear_except(self, field_to_keep):
-        fields = [self.mps_var, self.kph_var, self.mph_var, self.kts_var, self.fps_var]
+        fields = [self.mps_var, self.kph_var, self.mph_var, self.kts_var, self.fps_var, self.ms_var]
         for field in fields:
             if field is not field_to_keep:
                 field.set("")
@@ -902,6 +904,7 @@ class SpeedConverter:
                 self.mph_var.set(f"{mps * 2.237:.2f}")
                 self.kts_var.set(f"{mps * 1.944:.2f}")
                 self.fps_var.set(f"{mps * 3.28084:.2f}")
+                self.ms_var.set(f"{mps * 1609.344 :.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -919,6 +922,7 @@ class SpeedConverter:
                 self.mph_var.set(f"{kph * 0.621371:.2f}")
                 self.kts_var.set(f"{kph * 0.539957:.2f}")
                 self.fps_var.set(f"{kph * 3.28084 / 1.60934:.2f}")
+                self.ms_var.set(f"{kph * 0.2777777778:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -936,6 +940,7 @@ class SpeedConverter:
                 self.kph_var.set(f"{mph * 1.60934:.2f}")
                 self.kts_var.set(f"{mph * 0.868976:.2f}")
                 self.fps_var.set(f"{mph * 2.237:.2f}")
+                self.ms_var.set(f"{mph * 0.44704:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -953,6 +958,7 @@ class SpeedConverter:
                 self.kph_var.set(f"{kts * 1.852:.2f}")
                 self.mph_var.set(f"{kts * 1.15078:.2f}")
                 self.fps_var.set(f"{kts * 3.28084 * 1.68781:.2f}")
+                self.ms_var.set(f"{kts * 0.5144444444:.2f}")
             except ValueError:
                 pass
         self.updating = False
@@ -970,11 +976,28 @@ class SpeedConverter:
                 self.kph_var.set(f"{fps * 0.44704:.2f}")
                 self.mph_var.set(f"{fps * 0.681818:.2f}")
                 self.kts_var.set(f"{fps * 0.592484:.2f}")
+                self.ms_var.set(f"{fps * 0.3048:.2f}")
             except ValueError:
                 pass
         self.updating = False
 
-
+    def convert_from_ms(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+        if self.ms_var.get() == "":
+            self.clear_except(self.ms_var)
+        else:
+            try:
+                ms = float(self.ms_var.get())
+                self.mps_var.set(f"{ms * 0.000621371:.2f}")
+                self.kph_var.set(f"{ms * 3.6:.2f}")
+                self.mph_var.set(f"{ms * 2.2369362921:.2f}")
+                self.kts_var.set(f"{ms * 1.9438444924:.2f}")
+                self.fps_var.set(f"{ms * 3.280839895:.2f}")
+            except ValueError:
+                pass
+        self.updating = False
 class VolumeConverter:
     def __init__(self, window):
         self.window = window
@@ -1026,7 +1049,8 @@ class VolumeConverter:
         kl_entry = tk.Entry(self.window, textvariable=self.kl_var, font=my_font, width=20)
         kl_entry.place(x=120, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 130, text=f"Kiloliters k" + "\u0332" + "L", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 130, text="Kiloliters \k" + "\u0332" + "L", anchor="nw", fill="#FFFFFF", font=my_font)
+
 
         self.updating = False
 
@@ -1121,6 +1145,200 @@ class VolumeConverter:
                 pass
         self.updating = False
 
+class VoltageConverter:
+    def __init__(self, window):
+        self.window = window
+        self.window.title("Voltage Converter")
+        self.window.geometry("265x508+858+60")
+        self.updating = False
+
+        self.bg_img = PhotoImage(file=get_image_path('yellow4.png'))
+        self.canvas = tk.Canvas(self.window)
+        self.canvas.pack(fill='both', expand=True)
+        self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
+
+        # Nanovolts
+        self.nanov_var = tk.StringVar()
+        self.nanov_var.trace_add("write", self.convert_from_nanov)
+        nanovolts_entry = tk.Entry(self.window, textvariable=self.nanov_var, font=my_font, width=20)
+        nanovolts_entry.place(x=120, y=10)
+        self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 10, text="Nanovolts \u03BCg", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        # Microvolts
+        self.microv_var = tk.StringVar()
+        self.microv_var.trace_add("write", self.convert_from_microv)
+        microvolts_entry = tk.Entry(self.window, textvariable=self.microv_var, font=my_font, width=20)
+        microvolts_entry.place(x=120, y=40)
+        self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 40, text="Microvolts \u00B5mg", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        # Millivolts
+        self.milliv_var = tk.StringVar()
+        self.milliv_var.trace_add("write", self.convert_from_milliv)
+        millivolts_entry = tk.Entry(self.window, textvariable=self.milliv_var, font=my_font, width=20)
+        millivolts_entry.place(x=120, y=70)
+        self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 70, text="Millivolts \u0067", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        # Volts
+        self.volts_var = tk.StringVar()
+        self.volts_var.trace_add("write", self.convert_from_volts)
+        volts_entry = tk.Entry(self.window, textvariable=self.volts_var, font=my_font, width=20)
+        volts_entry.place(x=120, y=100)
+        self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 100, text="Volts \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        # Kilovolts
+        self.kilov_var = tk.StringVar()
+        self.kilov_var.trace_add("write", self.convert_from_kilov)
+        kilovolts_entry = tk.Entry(self.window, textvariable=self.kilov_var, font=my_font, width=20)
+        kilovolts_entry.place(x=120, y=130)
+        self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 130, text="Kilovolts \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        # Megavolts
+        self.megav_var = tk.StringVar()
+        self.megav_var.trace_add("write", self.convert_from_megav)
+        megavolts_entry = tk.Entry(self.window, textvariable=self.megav_var, font=my_font, width=20)
+        megavolts_entry.place(x=120, y=160)
+        self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
+        self.canvas.create_text(30, 160, text="Megavolts \u00B5kg", anchor="nw", fill="#FFFFFF", font=my_font)
+
+
+        
+    def clear_except(self, field_to_keep):
+        fields = [
+            self.nanov_var,
+            self.microv_var,
+            self.milliv_var,
+            self.volts_var,
+            self.kilov_var,
+            self.megav_var,
+        ]
+        for field in fields:
+            if field is not field_to_keep:
+                field.set("")
+
+    def convert_from_nanov(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+
+        if self.nanov_var.get() == "":
+            self.clear_except(self.nanov_var)
+        else:
+            try:
+                nanov = float(self.nanov_var.get())
+                self.microv_var.set(f"{nanov * 0.0001:.4f}")
+                self.milliv_var.set(f"{nanov * 0.0000010:.6f}")
+                self.volts_var.set(f"{nanov * 0.0000000010:.8f}")
+                self.kilov_var.set(f"{nanov * 0.0000000000010:.10f}")
+                self.megav_var.set(f"{nanov * 0.0000000000000010:.12f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_microv(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+
+        if self.microv_var.get() == "":
+            self.clear_except(self.microv_var)
+        else:
+            try:
+                microv = float(self.microv_var.get())
+                self.nanov_var.set(f"{microv * 1000:.2f}")
+                self.milliv_var.set(f"{microv * 0.001:.4f}")
+                self.volts_var.set(f"{microv * 0.0000010:.6f}")
+                self.kilov_var.set(f"{microv * 0.0000000010:.8f}")
+                self.megav_var.set(f"{microv * 0.0000000000010:.10f}")
+
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_milliv(self, *args):
+        if self.updating:
+            return
+        self.updating = True
+
+        if self.milliv_var.get() == "":
+            self.clear_except(self.milliv_var)
+        else:
+            try:
+                milliv = float(self.milliv_var.get())
+                self.nanov_var.set(f"{milliv * 1000000:.2f}")
+                self.microv_var.set(f"{milliv * 1000:.2f}")
+                self.volts_var.set(f"{milliv * 0.001:.4f}")
+                self.kilov_var.set(f"{milliv * 0.0000010:.6f}")
+                self.megav_var.set(f"{milliv * 0.0000000010:.8f}")
+
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_volts(self,*args):
+        if self.updating:
+            return
+        self.updating = True
+
+        if self.volts_var.get() == "":
+            self.clear_except(self.volts_var)
+        else:
+            try:
+                volts = float(self.volts_var.get())
+                self.nanov_var.set(f"{volts * 1000000000:.2f}")
+                self.microv_var.set(f"{volts * 1000000:.2f}")
+                self.milliv_var.set(f"{volts * 1000:.2f}")
+                self.kilov_var.set(f"{volts * 0.001:.4f}")
+                self.megav_var.set(f"{volts * 0.0000010:.6f}")
+            except ValueError:
+                pass
+        self.updating = False
+
+    def convert_from_kilov(self,*args):
+        if self.updating:
+            return
+        self.updating = True
+
+        if self.kilov_var.get() == "":
+            self.clear_except(self.kilov_var)
+        else:
+            try:
+                kilov = float(self.kilov_var.get())
+                self.nanov_var.set(f"{kilov * 1000000000000:.2f}")
+                self.microv_var.set(f"{kilov * 1000000000:.2f}")
+                self.milliv_var.set(f"{kilov * 1000000:.2f}")
+                self.volts_var.set(f"{kilov * 1000:.2f}")
+                self.megav_var.set(f"{kilov * 0.001:.4f}")
+
+            except ValueError:
+                pass
+        self.updating = False
+    def convert_from_megav(self,*args):
+        if self.updating:
+            return
+        self.updating = True
+
+        if self.megav_var.get() == "":
+            self.clear_except(self.megav_var)
+        else:
+            try:
+                megav = float(self.megav_var.get())
+                self.nanov_var.set(f"{megav * 1000000000000000:.2f}")
+                self.microv_var.set(f"{megav * 1000000000000:.2f}")
+                self.milliv_var.set(f"{megav * 1000000000:.2f}")
+                self.volts_var.set(f"{megav * 1000000:.2f}")
+                self.kilov_var.set(f"{megav * 1000:.2f}")
+
+            except ValueError:
+                pass
+        self.updating = False
+
+
+
 # Not Finished
 class MainMenu:
     def __init__(self, window):
@@ -1159,6 +1377,7 @@ class MainMenu:
         self.weight_converter_window = None
         self.speed_converter_window = None
         self.volume_converter_window = None
+        self.volts_converter_window = None
 
         # Length Converter Button
         length_image_path = get_image_path('length2.png')
@@ -1195,7 +1414,7 @@ class MainMenu:
             image = self.temperature_image,
             bd=0,
         )
-        temperature_converter_button.place(x=147, y=310, width=100, height=50)
+        temperature_converter_button.place(x=57, y=310, width=100, height=50)
 
         # Data Converter Button
         data_image_path = get_image_path('data.png')
@@ -1207,7 +1426,7 @@ class MainMenu:
             image = self.data_image,
             bd=0,
         )
-        data_converter_button.place(x=515, y=310, width=100, height=50)
+        data_converter_button.place(x=415, y=310, width=100, height=50)
 
         # Weight Converter Button
         weight_image_path = get_image_path('weight.png')
@@ -1243,7 +1462,20 @@ class MainMenu:
             image = self.volume_image,
             bd=0,
         )
-        volume_converter_button.place(x=330, y=310, width=100, height=50)
+        volume_converter_button.place(x=235, y=310, width=100, height=50)
+        
+        # Voltage Converter Button
+        volts_image_path = get_image_path('data.png')
+        self.volts_image = PhotoImage(file=volts_image_path)
+        volts_converter_button = tk.Button(
+            self.window, 
+            command=self.open_volts_converter,
+            compound="center",
+            image = self.volts_image,
+            bd=0,
+        )
+        volts_converter_button.place(x=595, y=310, width=100, height=50)
+
 
 
     # Functions
@@ -1331,9 +1563,20 @@ class MainMenu:
     def on_closing_volume_converter(self):
         self.volume_converter_window.destroy()
         self.volume_converter_window = None
+        
+    def open_volts_converter(self):
+        if not self.volts_converter_window:
+            self.volts_converter_window = tk.Toplevel(self.window)
+            self.volts_converter_window.protocol("WM_DELETE_WINDOW", self.on_closing_volts_converter)
+            VoltageConverter(self.volts_converter_window)
+        else:
+            self.volts_converter_window.deiconify()
+
+    def on_closing_volts_converter(self):
+        self.volts_converter_window.destroy()
+        self.volts_converter_window = None
 
 # Run the application
 window = tk.Tk()
 MainMenu(window)
 window.mainloop()
-
