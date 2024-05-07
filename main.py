@@ -831,50 +831,50 @@ class SpeedConverter:
         # Miles per second
         self.mps_var = tk.StringVar()
         self.mps_var.trace_add("write", self.convert_from_mps)
-        mps_entry = tk.Entry(self.window, textvariable=self.mps_var, font=my_font, width=19)
-        mps_entry.place(x=117, y=40)
+        mps_entry = tk.Entry(self.window, textvariable=self.mps_var, font=my_font, width=17)
+        mps_entry.place(x=135, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 40, text="Miles \u00B7s", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 40, text="Miles mi/s", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Kilometers per hour
         self.kph_var = tk.StringVar()
         self.kph_var.trace_add("write", self.convert_from_kph)
-        kph_entry = tk.Entry(self.window, textvariable=self.kph_var, font=my_font, width=19)
-        kph_entry.place(x=117, y=100)
+        kph_entry = tk.Entry(self.window, textvariable=self.kph_var, font=my_font, width=17)
+        kph_entry.place(x=135, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 100, text="Kilometers \u00B7h", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 100, text="Kilometers km/h", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Miles per hour
         self.mph_var = tk.StringVar()
         self.mph_var.trace_add("write", self.convert_from_mph)
-        mph_entry = tk.Entry(self.window, textvariable=self.mph_var, font=my_font, width=19)
-        mph_entry.place(x=117, y=70)
+        mph_entry = tk.Entry(self.window, textvariable=self.mph_var, font=my_font, width=17)
+        mph_entry.place(x=135, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 70, text="Miles \u00B7h", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 70, text="Miles mi/h", anchor="nw", fill="#FFFFFF", font=my_font)
         
         # Knots
         self.kts_var = tk.StringVar()
         self.kts_var.trace_add("write", self.convert_from_kts)
-        kts_entry = tk.Entry(self.window, textvariable=self.kts_var, font=my_font, width=19)
-        kts_entry.place(x=117, y=10)
+        kts_entry = tk.Entry(self.window, textvariable=self.kts_var, font=my_font, width=17)
+        kts_entry.place(x=135, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Knots kn", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Feet per second
         self.fps_var = tk.StringVar()
         self.fps_var.trace_add("write", self.convert_from_fps)
-        fps_entry = tk.Entry(self.window, textvariable=self.fps_var, font=my_font, width=19)
-        fps_entry.place(x=117, y=130)
+        fps_entry = tk.Entry(self.window, textvariable=self.fps_var, font=my_font, width=17)
+        fps_entry.place(x=135, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 130, text="Feet \u00B7s", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 130, text="Feet ft/s", anchor="nw", fill="#FFFFFF", font=my_font)
 
         # Meter per second
         self.ms_var = tk.StringVar()
         self.ms_var.trace_add("write", self.convert_from_ms)
-        ms_entry = tk.Entry(self.window, textvariable=self.ms_var, font=my_font, width=19)
-        ms_entry.place(x=117, y=160)
+        ms_entry = tk.Entry(self.window, textvariable=self.ms_var, font=my_font, width=17)
+        ms_entry.place(x=135, y=160)
         self.canvas.create_text(10,160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
-        self.canvas.create_text(30, 160, text="Meter \u00B7s", anchor="nw", fill="#FFFFFF", font=my_font)
+        self.canvas.create_text(30, 160, text="Meter m/s", anchor="nw", fill="#FFFFFF", font=my_font)
     def clear_except(self, field_to_keep):
         fields = [self.mps_var, self.kph_var, self.mph_var, self.kts_var, self.fps_var, self.ms_var]
         for field in fields:
