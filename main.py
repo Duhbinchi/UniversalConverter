@@ -20,6 +20,7 @@ class LengthConverter:
         self.window = window
         self.window.title("Length Converter")
         self.window.geometry("265x508+858+60")
+        self.window.resizable(False, True)
 
         # Load the background image
         self.bg_img = PhotoImage(file=get_image_path('yellow2.png'))
@@ -148,6 +149,7 @@ class TimeConverter:
         self.window = window
         self.window.title("Time Converter")
         self.window.geometry("265x508+858+60")
+        self.window.resizable(False, True)
         self.updating = False
         
         # Set Icon
@@ -376,6 +378,7 @@ class TemperatureConverter:
         self.window.title("Temperature Converter")
         self.window.geometry("265x508+858+60")
         self.updating = False
+        self.window.resizable(False, True)
 
         # Set Icon
         icon_logo = get_image_path('logo.ico')
@@ -474,7 +477,7 @@ class DataConverter:
         self.window = window
         self.window.title("Data Converter")
         self.window.geometry("265x508+858+60")
-
+        self.window.resizable(False, True)
         self.updating = False
 
 
@@ -659,6 +662,7 @@ class WeightConverter:
         self.window = window
         self.window.title("Weight Converter")
         self.window.geometry("265x508+858+60")
+        self.window.resizable(False, True)
         self.updating = False
 
         # Set Icon
@@ -817,6 +821,7 @@ class SpeedConverter:
         self.window = window
         self.window.title("Speed Converter")
         self.window.geometry("265x508+858+60")
+        self.window.resizable(False, True)
 
         # Set Icon
         icon_logo = get_image_path('logo.ico')
@@ -875,6 +880,8 @@ class SpeedConverter:
         ms_entry.place(x=135, y=160)
         self.canvas.create_text(10,160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 160, text="Meter m/s", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        
     def clear_except(self, field_to_keep):
         fields = [self.mps_var, self.kph_var, self.mph_var, self.kts_var, self.fps_var, self.ms_var]
         for field in fields:
@@ -996,6 +1003,7 @@ class VolumeConverter:
         self.window = window
         self.window.title("Volume Converter")
         self.window.geometry("265x508+858+60")
+        self.window.resizable(False, True)
 
         # Set Icon
         icon_logo = get_image_path('logo.ico')
@@ -1147,6 +1155,7 @@ class VoltageConverter:
         self.window = window
         self.window.title("Voltage Converter")
         self.window.geometry("265x508+858+60")
+        self.window.resizable(False, True)
         self.updating = False
 
         # Set Icon
@@ -1346,6 +1355,7 @@ class MainMenu:
         self.window = window
         self.window.title("Main Menu")
         self.window.geometry("750x500+100+60")
+        self.window.resizable(False, False)
         self.window.configure(bg="blue") ; self.window.resizable(False, False)
 
         # Set Icon
@@ -1582,3 +1592,10 @@ class MainMenu:
 window = tk.Tk()
 MainMenu(window)
 window.mainloop()
+
+"""
+The programming approach utilized in this program was Object-oriented Programming (OOP), the reason for this is encapsulation and modularity. 
+For example, the LengthConverter class is responsible for converting length units (meters, kilometers, miles, etc.), as such this class contains the necesary conversion fu
+
+Meanwhile, the Speed
+"""
