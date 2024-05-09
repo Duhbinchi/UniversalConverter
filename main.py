@@ -1729,10 +1729,10 @@ class VoltageConverter:
                 return
             
             if millivolts in range(0,70):
-                self.canvas.itemconfig(self.fact_text, text="Did you know? that the nervous system\ncommunicates using tiny electrical signals, typically\nranging from -70 to +70 millivolts!")
+                self.canvas.itemconfig(self.fact_text, text="Did you know? the nervous system\ncommunicates using tiny electrical signals, typically\nranging from -70 to +70 millivolts!")
 
             if volts in range(1,10):
-                self.canvas.itemconfig(self.fact_text, text="Did you know? that the average human body\nvoltage is around 3 volts!")
+                self.canvas.itemconfig(self.fact_text, text="Did you know? the average human body\nvoltage is around 3 volts!")
 
             if volts >= 500_000:
                 self.canvas.itemconfig(self.fact_text, text="Did you know? Tesla coils can generate\nvoltages exceeding 1 million volts!")
@@ -1742,9 +1742,11 @@ class VoltageConverter:
             millivolts = float(self.milliv_var.get())
             volts = float(self.volts_var.get())
         except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)  # Move the button back to the original position
             return
     
-        if millivolts in range(0,70) or volts in range(1,10) or volts >= 500_000:
+        if millivolts in range(1,70) or volts in range(1,10) or volts >= 500_000:
             self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
             self.canvas.coords(self.fact_button, 10, 390)  # Move the button up
         else:
