@@ -1,4 +1,13 @@
 # Group 7 - Alpha Version
+"""
+Guide:
+# Create facts button
+# Define fact function
+# Add the function to trace using lambda
+# define clear function
+
+- first version is in DataConverter class
+"""
 
 import tkinter as tk
 from tkinter import PhotoImage
@@ -491,46 +500,52 @@ class DataConverter:
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
         self.bits_var = tk.StringVar()
-        self.bits_var.trace_add("write", self.convert_from_bits)
+        self.bits_var.trace_add("write", lambda *args: (self.convert_from_bits(), self.clear_fact()))
         bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font, width = 17)
         bits_entry.place(x=135, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Bits \u00B5b", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.bytes_var = tk.StringVar()
-        self.bytes_var.trace_add("write", self.convert_from_bytes)
+        self.bytes_var.trace_add("write", lambda *args: (self.convert_from_bytes(), self.clear_fact()))
         bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font, width = 17)
         bytes_entry.place(x=135, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Bytes \u00B5B", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.kb_var = tk.StringVar()
-        self.kb_var.trace_add("write", self.convert_from_kb)
+        self.kb_var.trace_add("write", lambda *args: (self.convert_from_kb(), self.clear_fact()))
         kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font, width = 17)
         kb_entry.place(x=135, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Kilobytes \u00B5KB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.mb_var = tk.StringVar()
-        self.mb_var.trace_add("write", self.convert_from_mb)
+        self.mb_var.trace_add("write", lambda *args: (self.convert_from_mb(), self.clear_fact()))
         mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font, width = 17)
         mb_entry.place(x=135, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Megabytes \u00B5MB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.gb_var = tk.StringVar()
-        self.gb_var.trace_add("write", self.convert_from_gb)
+        self.gb_var.trace_add("write", lambda *args: (self.convert_from_gb(), self.clear_fact()))
         gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font, width = 17)
         gb_entry.place(x=135, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Gigabytes \u00B5GB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.tb_var = tk.StringVar()
-        self.tb_var.trace_add("write", self.convert_from_tb)
+        self.tb_var.trace_add("write", lambda *args: (self.convert_from_tb(), self.clear_fact()))
         tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font, width = 17)
         tb_entry.place(x=135, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 160, text="Terabytes \u00B5TB", anchor="nw", fill="#FFFFFF", font=my_font)
+
+        # (New) Add a button and a label for the facts
+        self.fact_button = tk.Button(self.window, text="Did you know? (Lightbulb)", bg="blue", command=self.data_facts)
+        self.fact_button.place(x=105, y=470)
+        self.fact_text = self.canvas.create_text(10, 400, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+
 
     def clear_except(self, field_to_keep):
         fields = [
@@ -656,6 +671,27 @@ class DataConverter:
                 pass
         self.updating = False
 
+    # (New)
+    def data_facts(self):
+        try:
+            kb = float(self.kb_var.get())
+            mb = float(self.mb_var.get())
+            gb = float(self.gb_var.get())
+        except ValueError:
+            return
+
+        if kb in range(0, 10):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The program that sent NASA\nto the moon in 1960 was only 4 Kilobytes!")
+
+        if mb in range (20, 30):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? Currently, if you download\nPython 3.9 the file size is around 25\nMegabytes!")
+
+        if gb in range(2, 5):
+            self.canvas.itemconfig(self.fact_text, text="The average smartphone user in the\nPhilippines consumes around 3 Gigabytes\nof mobile data per month!")
+
+    # (New)
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
 
 class WeightConverter:
     def __init__(self, window):
@@ -1365,8 +1401,8 @@ class MainMenu:
         global my_font
         my_font = ("Nirmala UI", 10, "bold")
 
-        global my_font_thin
-        my_font_thin = ("Consolas", 10, "bold")
+        global my_font_s
+        my_font_s = ("Consolas", 8, "bold")
 
         # Get the directory of the script
         bg_image_path = get_image_path('menu3.png')
