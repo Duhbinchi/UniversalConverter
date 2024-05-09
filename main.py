@@ -14,6 +14,7 @@ from tkinter import PhotoImage
 from tkinter import ttk
 from tkinter.font import Font
 import os
+from PIL import Image, ImageTk
 
 
 # Get the directory of the images
@@ -489,7 +490,6 @@ class DataConverter:
         self.window.resizable(False, True)
         self.updating = False
 
-
         # Set Icon
         icon_logo = get_image_path('logo.ico')
         self.window.iconbitmap(icon_logo)
@@ -708,6 +708,11 @@ class WeightConverter:
         self.canvas = tk.Canvas(self.window)
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
+
+        # Fact Button
+        self.fact_button = tk.Button(self.window, text="Did you know? (Lightbulb)", bg="blue", command=self.weight_facts)
+        self.fact_button.place(x=105, y=470)
+        self.fact_text = self.canvas.create_text(10, 400, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
 
         # Microgram
         self.microgram_var = tk.StringVar()
@@ -1202,9 +1207,18 @@ class VoltageConverter:
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.voltage_facts)
+        self.fact_text = self.canvas.create_text(10, 360, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
         # Nanovolts
         self.nanov_var = tk.StringVar()
-        self.nanov_var.trace_add("write", self.convert_from_nanov)
+        self.nanov_var.trace_add("write", lambda *args: (self.convert_from_nanov(), self.clear_fact(), self.check_fact()))
         nanovolts_entry = tk.Entry(self.window, textvariable=self.nanov_var, font=my_font, width=18)
         nanovolts_entry.place(x=126, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1212,7 +1226,7 @@ class VoltageConverter:
 
         # Microvolts
         self.microv_var = tk.StringVar()
-        self.microv_var.trace_add("write", self.convert_from_microv)
+        self.microv_var.trace_add("write", lambda *args: (self.convert_from_microv(), self.clear_fact(), self.check_fact()))
         microvolts_entry = tk.Entry(self.window, textvariable=self.microv_var, font=my_font, width=18)
         microvolts_entry.place(x=126, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1220,7 +1234,7 @@ class VoltageConverter:
 
         # Millivolts
         self.milliv_var = tk.StringVar()
-        self.milliv_var.trace_add("write", self.convert_from_milliv)
+        self.milliv_var.trace_add("write", lambda *args: (self.convert_from_milliv(args), self.clear_fact(), self.check_fact()))
         millivolts_entry = tk.Entry(self.window, textvariable=self.milliv_var, font=my_font, width=18)
         millivolts_entry.place(x=126, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1228,7 +1242,7 @@ class VoltageConverter:
 
         # Volts
         self.volts_var = tk.StringVar()
-        self.volts_var.trace_add("write", self.convert_from_volts)
+        self.volts_var.trace_add("write", lambda *args: (self.convert_from_volts(args), self.clear_fact(), self.check_fact()))
         volts_entry = tk.Entry(self.window, textvariable=self.volts_var, font=my_font, width=18)
         volts_entry.place(x=126, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1236,7 +1250,7 @@ class VoltageConverter:
 
         # Kilovolts
         self.kilov_var = tk.StringVar()
-        self.kilov_var.trace_add("write", self.convert_from_kilov)
+        self.kilov_var.trace_add("write", lambda *args: (self.convert_from_kilov(), self.clear_fact(), self.check_fact()))
         kilovolts_entry = tk.Entry(self.window, textvariable=self.kilov_var, font=my_font, width=18)
         kilovolts_entry.place(x=126, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1244,7 +1258,7 @@ class VoltageConverter:
 
         # Megavolts
         self.megav_var = tk.StringVar()
-        self.megav_var.trace_add("write", self.convert_from_megav)
+        self.megav_var.trace_add("write", lambda *args: (self.convert_from_megav(), self.clear_fact(), self.check_fact()))
         megavolts_entry = tk.Entry(self.window, textvariable=self.megav_var, font=my_font, width=18)
         megavolts_entry.place(x=126, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1362,6 +1376,7 @@ class VoltageConverter:
             except ValueError:
                 pass
         self.updating = False
+    
     def convert_from_megav(self,*args):
         if self.updating:
             return
@@ -1381,6 +1396,41 @@ class VoltageConverter:
             except ValueError:
                 pass
         self.updating = False
+
+    def voltage_facts(self, event):
+            try:
+                millivolts = float(self.milliv_var.get())
+                volts = float(self.volts_var.get())
+
+            except ValueError:
+                return
+            
+            if millivolts in range(0,70):
+                self.canvas.itemconfig(self.fact_text, text="Did you know? that the nervous system\ncommunicates using tiny electrical signals, typically\nranging from -70 to +70 millivolts!")
+
+            if volts in range(1,10):
+                self.canvas.itemconfig(self.fact_text, text="Did you know? that the average human body\nvoltage is around 3 volts!")
+
+            if volts >= 500_000:
+                self.canvas.itemconfig(self.fact_text, text="Did you know? Tesla coils can generate\nvoltages exceeding 1 million volts!")
+
+    def check_fact(self, *args):
+        try:
+            millivolts = float(self.milliv_var.get())
+            volts = float(self.volts_var.get())
+        except ValueError:
+            return
+    
+        if millivolts in range(0,70) or volts in range(1,10) or volts >= 500_000:
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)  # Move the button up
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)  # Move the button back to the original position
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
+        
 
 
 
