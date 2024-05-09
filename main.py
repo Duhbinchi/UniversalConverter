@@ -44,12 +44,21 @@ class LengthConverter:
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.length_facts)
+        self.fact_text = self.canvas.create_text(10, 340, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
         # Set the updating flag to False to prevent the convert_from_* methods from running when the text variables are updated
         self.updating = False
 
         # Create the widgets
         self.meters_var = tk.StringVar()
-        self.meters_var.trace_add("write", self.convert_from_meters)
+        self.meters_var.trace_add("write", lambda *args: (self.convert_from_meters(), self.clear_fact(), self.check_fact()))
         meter_entry = tk.Entry(self.window, textvariable=self.meters_var, font=my_font)
         meter_entry.place(x=123, y=40, width=135)
         # Use create_text() instead of a Label
@@ -58,21 +67,21 @@ class LengthConverter:
 
         # Repeat for the other variables
         self.feet_var = tk.StringVar()
-        self.feet_var.trace_add("write", self.convert_from_feet)
+        self.feet_var.trace_add("write", lambda *args: (self.convert_from_feet(), self.clear_fact(), self.check_fact()))
         feet_entry = tk.Entry(self.window, textvariable=self.feet_var, font=my_font)
         feet_entry.place(x=123, y=100, width=135)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Feet \u00B2", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.inches_var = tk.StringVar()
-        self.inches_var.trace_add("write", self.convert_from_inches)
+        self.inches_var.trace_add("write", lambda *args: (self.convert_from_inches(), self.clear_fact(), self.check_fact()))
         inches_entry = tk.Entry(self.window, textvariable=self.inches_var, font=my_font)
         inches_entry.place(x=123, y=70, width=135)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Inches \u2033", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.cm_var = tk.StringVar()
-        self.cm_var.trace_add("write", self.convert_from_cm)
+        self.cm_var.trace_add("write", lambda *args: (self.convert_from_cm(), self.clear_fact(), self.check_fact()))
         cm_entry = tk.Entry(self.window, textvariable=self.cm_var, font=my_font)
         cm_entry.place(x=123, y=10, width=135)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -152,7 +161,49 @@ class LengthConverter:
             except ValueError:
                 pass
         self.updating = False
+    
+    def length_facts(self, event):
+        try:
+            meters = float(self.meters_var.get())
+            feet = float(self.feet_var.get())
+            inches = float(self.inches_var.get())
+            cm = float(self.cm_var.get())
 
+        except ValueError:
+            return
+
+        if meters >= 9289000:
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The Trans-Siberian Railway\nis the world's longest train ride, crossing\nEurasia at a whopping 9289000 meters!")
+
+        elif feet >= 40230:
+            self.canvas.itemconfig(self.fact_text, text="Did you know the Kola Superdeep Borehole\nin Russia is the deepest man-made hole, reaching\nabout 12,262 meters (40,230 feet) below\nthe Earth's surface?")
+
+        elif inches >= 394 or cm >= 12000:
+            self.canvas.itemconfig(self.fact_text, text="Did you know the title for longest animal\ngoes to a giant siphonophore, a colonial\ncreature! Clocking in at over 120\nmeters (394 feet)")
+    
+    def check_fact(self, *args):
+        try:
+            meters = float(self.meters_var.get())
+            feet = float(self.feet_var.get())
+            inches = float(self.inches_var.get())
+            cm = float(self.cm_var.get())
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+    
+        if meters >= 9289000 or feet >= 40230 or inches >= 394 or cm >= 12000:
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+    
+        self.canvas.update()
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
 
 class TimeConverter:
     def __init__(self, window):
@@ -171,50 +222,59 @@ class TimeConverter:
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.time_facts)
+        self.fact_text = self.canvas.create_text(10, 340, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
         self.seconds_var = tk.StringVar()
-        self.seconds_var.trace_add("write", self.convert_from_seconds)
+        self.seconds_var.trace_add("write", lambda *args: (self.convert_from_seconds(), self.clear_fact(), self.check_fact()))
         seconds_entry = tk.Entry(self.window, textvariable=self.seconds_var, width=22, font=my_font)
         seconds_entry.place(x=100, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Seconds", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.minutes_var = tk.StringVar()
-        self.minutes_var.trace_add("write", self.convert_from_minutes)
+        self.minutes_var.trace_add("write", lambda *args: (self.convert_from_minutes(), self.clear_fact(), self.check_fact()))
         minutes_entry = tk.Entry(self.window, textvariable=self.minutes_var, width=22, font=my_font)
         minutes_entry.place(x=100, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Minutes", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.hours_var = tk.StringVar()
-        self.hours_var.trace_add("write", self.convert_from_hours)
+        self.hours_var.trace_add("write", lambda *args: (self.convert_from_hours(), self.clear_fact(), self.check_fact()))
         hours_entry = tk.Entry(self.window, textvariable=self.hours_var, width=22, font=my_font)
         hours_entry.place(x=100, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Hours", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.days_var = tk.StringVar()
-        self.days_var.trace_add("write", self.convert_from_days)
+        self.days_var.trace_add("write", lambda *args: (self.convert_from_days(), self.clear_fact(), self.check_fact()))
         days_entry = tk.Entry(self.window, textvariable=self.days_var, width=22, font=my_font)
         days_entry.place(x=100, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Days", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.weeks_var = tk.StringVar()
-        self.weeks_var.trace_add("write", self.convert_from_weeks)
+        self.weeks_var.trace_add("write", lambda *args: (self.convert_from_weeks(), self.clear_fact(), self.check_fact()))
         weeks_entry = tk.Entry(self.window, textvariable=self.weeks_var, width=22, font=my_font)
         weeks_entry.place(x=100, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Weeks", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.months_var = tk.StringVar()
-        self.months_var.trace_add("write", self.convert_from_months)
+        self.months_var.trace_add("write", lambda *args: (self.convert_from_months(), self.clear_fact(), self.check_fact()))
         months_entry = tk.Entry(self.window, textvariable=self.months_var, width=22, font=my_font)
         months_entry.place(x=100, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 160, text="Months", anchor="nw", fill="#FFFFFF", font=my_font)
 
         self.years_var = tk.StringVar()
-        self.years_var.trace_add("write", self.convert_from_years)
+        self.years_var.trace_add("write", lambda *args: (self.convert_from_years(), self.clear_fact(), self.check_fact()))
         years_entry = tk.Entry(self.window, textvariable=self.years_var, width=22, font=my_font)
         years_entry.place(x=100, y=190)
         self.canvas.create_text(10, 190, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -381,6 +441,50 @@ class TimeConverter:
                 pass
         self.updating = False
 
+    def time_facts(self, event):
+        try:
+            seconds = float(self.seconds_var.get())
+            minutes = float(self.minutes_var.get())
+            hours = float(self.hours_var.get())
+            days = float(self.days_var.get())
+        except ValueError:
+            return
+        
+        if minutes in range(4,7):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? Bleeding to death can\noccur in as little as 5 minutes if\nthe bleeding isn't stopped.")
+
+        if hours in range (8,12):
+            self.canvas.itemconfig(self.fact_text, text="Did you know the current record\nholder for the longest plank ever is a\nman named Josef Šálek from the\nCzech Republic? He achieved an incredible\nfeat by holding a plank for a\nmind-blowing 9 hours, 38 minutes,\nand 47 seconds!")
+
+        if days in range(80, 101):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? Dr. Joseph Dituri,\nnicknamed 'Dr. Deep Sea', braved the\nunderwater world for a\nrecord-breaking 100 days!")
+
+
+    def check_fact(self, *args):
+        try:
+            seconds = float(self.seconds_var.get())
+            minutes = float(self.minutes_var.get())
+            hours = float(self.hours_var.get())
+            days = float(self.days_var.get())
+
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+        
+        if seconds in range(4,7) or hours in range(8,12) or days in range(80, 101):
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+    
+        self.canvas.update()
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
 
 class TemperatureConverter:
     def __init__(self, window):
@@ -399,9 +503,18 @@ class TemperatureConverter:
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.temp_facts)
+        self.fact_text = self.canvas.create_text(10, 340, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
         # Celsius to Fahrenheit: (°C × 9/5) + 32 = °F
         self.celsius_var = tk.StringVar()
-        self.celsius_var.trace_add("write", self.convert_from_celsius)
+        self.celsius_var.trace_add("write", lambda *args: (self.convert_from_celsius(), self.clear_fact(), self.check_fact())) 
         celsius_entry = tk.Entry(self.window, textvariable=self.celsius_var, width=19, font=my_font)
         celsius_entry.place(x=120, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -409,7 +522,7 @@ class TemperatureConverter:
 
         # Fahrenheit to Celsius: (°F − 32) x 5/9 = °C
         self.fahrenheit_var = tk.StringVar()
-        self.fahrenheit_var.trace_add("write", self.convert_from_fahrenheit)
+        self.fahrenheit_var.trace_add("write", lambda *args: (self.convert_from_fahrenheit(), self.clear_fact(), self.check_fact()))
         fahrenheit_entry = tk.Entry(self.window, textvariable=self.fahrenheit_var, width=19, font=my_font)
         fahrenheit_entry.place(x=120, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -417,7 +530,7 @@ class TemperatureConverter:
 
         # Celsius to Kelvin: K = °C + 273.15
         self.kelvin_var = tk.StringVar()
-        self.kelvin_var.trace_add("write", self.convert_from_kelvin)
+        self.kelvin_var.trace_add("write", lambda *args: (self.convert_from_kelvin(), self.clear_fact(), self.check_fact()))
         kelvin_entry = tk.Entry(self.window, textvariable=self.kelvin_var, width=19, font=my_font)
         kelvin_entry.place(x=120, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -481,6 +594,48 @@ class TemperatureConverter:
                 pass
         self.updating = False
 
+    def temp_facts(self, event):
+        try:
+            celsius = float(self.celsius_var.get())
+            fahrenheit = float(self.fahrenheit_var.get())
+            kelvin = float(self.kelvin_var.get())
+
+        except ValueError:
+            return
+        
+        if celsius in range(1,11):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The all-time\nnational coldest temperature record was\n6.3°C registered in Baguio City\non Jan. 18, 1961")
+
+        elif fahrenheit in range(38,50):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The heat\nindex in Binan on April\n28 was 48 degrees Celsius!\nSo hot!")
+
+        elif kelvin >= 1000000:
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The plasma\nin a nuclear explosion can\nreach temperatures exceeding several million")
+    
+    def check_fact(self, *args):
+        try:
+            celsius = float(self.celsius_var.get())
+            fahrenheit = float(self.fahrenheit_var.get())
+            kelvin = float(self.kelvin_var.get())
+
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+        
+        if celsius in range(1,11) or fahrenheit in range(38,50) or kelvin >= 1000000:
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+    
+        self.canvas.update()
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
 
 class DataConverter:
     def __init__(self, window):
@@ -499,53 +654,57 @@ class DataConverter:
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.data_facts)
+        self.fact_text = self.canvas.create_text(10, 360, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
+        # Bits
         self.bits_var = tk.StringVar()
-        self.bits_var.trace_add("write", lambda *args: (self.convert_from_bits(), self.clear_fact()))
+        self.bits_var.trace_add("write", lambda *args: (self.convert_from_bits(), self.clear_fact(), self.check_fact()))
         bits_entry = tk.Entry(self.window, textvariable=self.bits_var, font=my_font, width = 17)
         bits_entry.place(x=135, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 10, text="Bits \u00B5b", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.bytes_var = tk.StringVar()
-        self.bytes_var.trace_add("write", lambda *args: (self.convert_from_bytes(), self.clear_fact()))
+        self.bytes_var.trace_add("write", lambda *args: (self.convert_from_bytes(), self.clear_fact(), self.check_fact()))
         bytes_entry = tk.Entry(self.window, textvariable=self.bytes_var, font=my_font, width = 17)
         bytes_entry.place(x=135, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 40, text="Bytes \u00B5B", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.kb_var = tk.StringVar()
-        self.kb_var.trace_add("write", lambda *args: (self.convert_from_kb(), self.clear_fact()))
+        self.kb_var.trace_add("write", lambda *args: (self.convert_from_kb(), self.clear_fact(), self.check_fact()))
         kb_entry = tk.Entry(self.window, textvariable=self.kb_var, font=my_font, width = 17)
         kb_entry.place(x=135, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 70, text="Kilobytes \u00B5KB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.mb_var = tk.StringVar()
-        self.mb_var.trace_add("write", lambda *args: (self.convert_from_mb(), self.clear_fact()))
+        self.mb_var.trace_add("write", lambda *args: (self.convert_from_mb(), self.clear_fact(), self.check_fact()))
         mb_entry = tk.Entry(self.window, textvariable=self.mb_var, font=my_font, width = 17)
         mb_entry.place(x=135, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 100, text="Megabytes \u00B5MB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.gb_var = tk.StringVar()
-        self.gb_var.trace_add("write", lambda *args: (self.convert_from_gb(), self.clear_fact()))
+        self.gb_var.trace_add("write", lambda *args: (self.convert_from_gb(), self.clear_fact(), self.check_fact()))
         gb_entry = tk.Entry(self.window, textvariable=self.gb_var, font=my_font, width = 17)
         gb_entry.place(x=135, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 130, text="Gigabytes \u00B5GB", anchor="nw", fill="#FFFFFF", font=my_font)
         
         self.tb_var = tk.StringVar()
-        self.tb_var.trace_add("write", lambda *args: (self.convert_from_tb(), self.clear_fact()))
+        self.tb_var.trace_add("write", lambda *args: (self.convert_from_tb(), self.clear_fact(), self.check_fact()))
         tb_entry = tk.Entry(self.window, textvariable=self.tb_var, font=my_font, width = 17)
         tb_entry.place(x=135, y=160)
         self.canvas.create_text(10, 160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
         self.canvas.create_text(30, 160, text="Terabytes \u00B5TB", anchor="nw", fill="#FFFFFF", font=my_font)
-
-        # (New) Add a button and a label for the facts
-        self.fact_button = tk.Button(self.window, text="Did you know? (Lightbulb)", bg="blue", command=self.data_facts)
-        self.fact_button.place(x=105, y=470)
-        self.fact_text = self.canvas.create_text(10, 400, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
-
 
     def clear_except(self, field_to_keep):
         fields = [
@@ -671,8 +830,7 @@ class DataConverter:
                 pass
         self.updating = False
 
-    # (New)
-    def data_facts(self):
+    def data_facts(self, event):
         try:
             kb = float(self.kb_var.get())
             mb = float(self.mb_var.get())
@@ -689,7 +847,26 @@ class DataConverter:
         if gb in range(2, 5):
             self.canvas.itemconfig(self.fact_text, text="The average smartphone user in the\nPhilippines consumes around 3 Gigabytes\nof mobile data per month!")
 
-    # (New)
+    def check_fact(self, *args):
+        try:
+            kb = float(self.kb_var.get())
+            mb = float(self.mb_var.get())
+            gb = float(self.gb_var.get())
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+
+        if kb in range(0, 11) or mb in range(20, 31) or gb in range(2, 6):
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+
+        self.canvas.update()
+
     def clear_fact(self, *args):
         self.canvas.itemconfig(self.fact_text, text="")
 
@@ -710,13 +887,17 @@ class WeightConverter:
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
         # Fact Button
-        self.fact_button = tk.Button(self.window, text="Did you know? (Lightbulb)", bg="blue", command=self.weight_facts)
-        self.fact_button.place(x=105, y=470)
-        self.fact_text = self.canvas.create_text(10, 400, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.weight_facts)
+        self.fact_text = self.canvas.create_text(10, 340, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
 
         # Microgram
         self.microgram_var = tk.StringVar()
-        self.microgram_var.trace_add("write", self.convert_from_microgram)
+        self.microgram_var.trace_add("write", lambda *args: (self.convert_from_microgram(), self.clear_fact(), self.check_fact()))
         microgram_entry = tk.Entry(self.window, textvariable=self.microgram_var, font=my_font, width=18)
         microgram_entry.place(x=128, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -724,7 +905,7 @@ class WeightConverter:
 
         # Milligram
         self.milligram_var = tk.StringVar()
-        self.milligram_var.trace_add("write", self.convert_from_milligram)
+        self.milligram_var.trace_add("write", lambda *args: (self.convert_from_milligram(), self.clear_fact(), self.check_fact()))
         milligram_entry = tk.Entry(self.window, textvariable=self.milligram_var, font=my_font, width=18)
         milligram_entry.place(x=128, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -732,7 +913,7 @@ class WeightConverter:
 
         # Gram
         self.gram_var = tk.StringVar()
-        self.gram_var.trace_add("write", self.convert_from_gram)
+        self.gram_var.trace_add("write", lambda *args: (self.convert_from_gram(), self.clear_fact(), self.check_fact()))
         gram_entry = tk.Entry(self.window, textvariable=self.gram_var, font=my_font, width=18)
         gram_entry.place(x=128, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -740,7 +921,7 @@ class WeightConverter:
 
         # Kilogram
         self.kilogram_var = tk.StringVar()
-        self.kilogram_var.trace_add("write", self.convert_from_kilogram)
+        self.kilogram_var.trace_add("write", lambda *args: (self.convert_from_kilogram(), self.clear_fact(), self.check_fact()))
         kilogram_entry = tk.Entry(self.window, textvariable=self.kilogram_var, font=my_font, width=18)
         kilogram_entry.place(x=128, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -748,7 +929,7 @@ class WeightConverter:
 
         # Metric Ton
         self.metric_ton_var = tk.StringVar()
-        self.metric_ton_var.trace_add("write", self.convert_from_metric_ton)
+        self.metric_ton_var.trace_add("write", lambda *args: (self.convert_from_metric_ton(), self.clear_fact(), self.check_fact()))
         metric_ton_entry = tk.Entry(self.window, textvariable=self.metric_ton_var, font=my_font, width=18)
         metric_ton_entry.place(x=128, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -856,6 +1037,48 @@ class WeightConverter:
                 pass
         self.updating = False
 
+    def weight_facts(self, event):
+        try:
+            microgram = float(self.microgram_var.get())
+            milligram = float(self.milligram_var.get())
+            gram = float(self.gram_var.get())
+            kilogram = float(self.kilogram_var.get())
+        except ValueError:
+            return
+
+        if kilogram in range(1,11):
+            self.canvas.itemconfig(self.fact_text, text="Did you know one tree\ncan produce a 1.2 kg\nof oxygen :D")
+        
+        if kilogram in range(150_000, 200_000):
+            self.canvas.itemconfig(self.fact_text, text="Did you know that the\nweight of a blue whale\ncan reach up to 200,000\nkilograms!")
+        
+        if gram in range(1300, 1500):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The average weight of an\nadult human being is 1400\ngrams!")
+
+    def check_fact(self, *args):
+        try:
+            microgram = float(self.microgram_var.get())
+            milligram = float(self.milligram_var.get())
+            gram = float(self.gram_var.get())
+            kilogram = float(self.kilogram_var.get())
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+
+        if kilogram in range(1, 11) or kilogram in range(150_000, 200_000) or gram in range(1300, 1500):
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+
+        self.canvas.update()
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
+
 # I show
 class SpeedConverter:
     def __init__(self, window):
@@ -872,11 +1095,20 @@ class SpeedConverter:
         self.canvas.pack(fill='both', expand=True)
         self.canvas.create_image(0, 0, image=self.bg_img, anchor='nw')
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.speed_facts)
+        self.fact_text = self.canvas.create_text(10, 330, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
         self.updating = False
 
         # Miles per second
         self.mps_var = tk.StringVar()
-        self.mps_var.trace_add("write", self.convert_from_mps)
+        self.mps_var.trace_add("write", lambda *args: (self.convert_from_mps(), self.clear_fact(), self.check_fact()))
         mps_entry = tk.Entry(self.window, textvariable=self.mps_var, font=my_font, width=17)
         mps_entry.place(x=135, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -884,7 +1116,7 @@ class SpeedConverter:
 
         # Kilometers per hour
         self.kph_var = tk.StringVar()
-        self.kph_var.trace_add("write", self.convert_from_kph)
+        self.kph_var.trace_add("write", lambda *args: (self.convert_from_kph(), self.clear_fact(), self.check_fact()))
         kph_entry = tk.Entry(self.window, textvariable=self.kph_var, font=my_font, width=17)
         kph_entry.place(x=135, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -892,7 +1124,7 @@ class SpeedConverter:
 
         # Miles per hour
         self.mph_var = tk.StringVar()
-        self.mph_var.trace_add("write", self.convert_from_mph)
+        self.mph_var.trace_add("write", lambda *args: (self.convert_from_mph(), self.clear_fact(), self.check_fact()))
         mph_entry = tk.Entry(self.window, textvariable=self.mph_var, font=my_font, width=17)
         mph_entry.place(x=135, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -900,7 +1132,7 @@ class SpeedConverter:
         
         # Knots
         self.kts_var = tk.StringVar()
-        self.kts_var.trace_add("write", self.convert_from_kts)
+        self.kts_var.trace_add("write", lambda *args: (self.convert_from_kts(), self.clear_fact(), self.check_fact()))
         kts_entry = tk.Entry(self.window, textvariable=self.kts_var, font=my_font, width=17)
         kts_entry.place(x=135, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -908,7 +1140,7 @@ class SpeedConverter:
 
         # Feet per second
         self.fps_var = tk.StringVar()
-        self.fps_var.trace_add("write", self.convert_from_fps)
+        self.fps_var.trace_add("write", lambda *args: (self.convert_from_fps(), self.clear_fact(), self.check_fact()))
         fps_entry = tk.Entry(self.window, textvariable=self.fps_var, font=my_font, width=17)
         fps_entry.place(x=135, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -916,7 +1148,7 @@ class SpeedConverter:
 
         # Meter per second
         self.ms_var = tk.StringVar()
-        self.ms_var.trace_add("write", self.convert_from_ms)
+        self.ms_var.trace_add("write", lambda *args: (self.convert_from_ms(), self.clear_fact(), self.check_fact()))
         ms_entry = tk.Entry(self.window, textvariable=self.ms_var, font=my_font, width=17)
         ms_entry.place(x=135, y=160)
         self.canvas.create_text(10,160, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1038,6 +1270,43 @@ class SpeedConverter:
                 pass
         self.updating = False
 
+    def speed_facts(self, event):
+        try:
+            kph = float(self.kph_var.get())
+            mph = float(self.mph_var.get())
+        except ValueError:
+            return
+
+        if kph in range(350, 400):
+            self.canvas.itemconfig(self.fact_text, text="Did you know the peregrine\nfalcon is Earth's fastest animal?\nIt can hit speeds over\n240 mph (386 km/h) when\ndiving for prey")
+
+        if mph in range(16_500, 17_500):
+            self.canvas.itemconfig(self.fact_text, text="Did you know spacecraft reentering\nEarth's atmosphere from space face\nincredible speeds? The Space Shuttle,\nfor instance, could reach over\n17,000 miles per hour (27,000\nkilometers per hour).")
+
+        if kph in range(480, 500):
+            self.canvas.itemconfig(self.fact_text, text="Did you know kamikaze pilots\ndived at speeds over 300\nmph during World War II,\naiming to maximize crash impact?")
+
+    def check_fact(self, *args):
+        try:
+            kph = float(self.kph_var.get())
+            mph = float(self.mph_var.get())
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+
+        if kph in range(350, 400) or mph in range(16_500, 17_500) or kph in range(480, 500):
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+
+        self.canvas.update()
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
 
 class VolumeConverter:
     def __init__(self, window):
@@ -1056,9 +1325,19 @@ class VolumeConverter:
 
         self.updating = False
 
+        # Fact Button
+        self.image = Image.open(get_image_path('venti_sleep.png'))
+        self.venti = ImageTk.PhotoImage(self.image)
+        self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
+        self.canvas.tag_bind(self.fact_button, "<Button-1>", self.volume_facts)
+        self.fact_text = self.canvas.create_text(10, 330, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.idea_image = Image.open(get_image_path('venti_idea.png'))
+        self.venti_idea = ImageTk.PhotoImage(self.idea_image)
+
+
         # Milliliters
         self.ml_var = tk.StringVar()
-        self.ml_var.trace_add("write", self.convert_from_ml)
+        self.ml_var.trace_add("write", lambda *args: (self.convert_from_ml(), self.clear_fact(), self.check_fact()))
         ml_entry = tk.Entry(self.window, textvariable=self.ml_var, font=my_font, width=19)
         ml_entry.place(x=120, y=10)
         self.canvas.create_text(10, 10, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1066,7 +1345,7 @@ class VolumeConverter:
 
         # Centiliters
         self.cl_var = tk.StringVar()
-        self.cl_var.trace_add("write", self.convert_from_cl)
+        self.cl_var.trace_add("write", lambda *args: (self.convert_from_cl(), self.clear_fact(), self.check_fact()))
         cl_entry = tk.Entry(self.window, textvariable=self.cl_var, font=my_font, width=19)
         cl_entry.place(x=120, y=40)
         self.canvas.create_text(10, 40, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1074,7 +1353,7 @@ class VolumeConverter:
 
         # Deciliters
         self.dl_var = tk.StringVar()
-        self.dl_var.trace_add("write", self.convert_from_dl)
+        self.dl_var.trace_add("write", lambda *args: (self.convert_from_dl(), self.clear_fact(), self.check_fact()))
         dl_entry = tk.Entry(self.window, textvariable=self.dl_var, font=my_font, width=19)
         dl_entry.place(x=120, y=70)
         self.canvas.create_text(10, 70, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1082,7 +1361,7 @@ class VolumeConverter:
 
         # Liters
         self.l_var = tk.StringVar()
-        self.l_var.trace_add("write", self.convert_from_l)
+        self.l_var.trace_add("write", lambda *args: (self.convert_from_l(), self.clear_fact(), self.check_fact()))
         l_entry = tk.Entry(self.window, textvariable=self.l_var, font=my_font, width=19)
         l_entry.place(x=120, y=100)
         self.canvas.create_text(10, 100, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1090,7 +1369,7 @@ class VolumeConverter:
 
         # Kiloliters
         self.kl_var = tk.StringVar()
-        self.kl_var.trace_add("write", self.convert_from_kl)
+        self.kl_var.trace_add("write", lambda *args: (self.convert_from_kl(), self.clear_fact(), self.check_fact()))
         kl_entry = tk.Entry(self.window, textvariable=self.kl_var, font=my_font, width=19)
         kl_entry.place(x=120, y=130)
         self.canvas.create_text(10, 130, text="\u27A2", anchor="nw", fill="#faff00", font=my_font)
@@ -1190,6 +1469,50 @@ class VolumeConverter:
                 pass
         self.updating = False
 
+
+    def volume_facts(self, event):
+        try:
+            ml = float(self.ml_var.get())
+            cl = float(self.cl_var.get())
+            dl = float(self.dl_var.get())
+            l = float(self.l_var.get())
+            kl = float(self.kl_var.get())
+        except ValueError:
+            return
+
+        if kl > 1_000_000 and kl < 30_000_000:
+            self.canvas.itemconfig(self.fact_text, text="Did you know that some\nvolcanoes, like Yellowstone Caldera in\nthe US, can hold about\n15 million kiloliters of magma\nin their chambers?")
+
+        elif kl > 30_000_000:
+            self.canvas.itemconfig(self.fact_text, text="Did you know that the\nThree Gorges Dam in China,\nthe world's largest hydroelectric dam\nby capacity, holds an astonishing\n39.3 million kiloliters of water\nin its reservoir?")
+
+        if l in range(100, 200):
+            self.canvas.itemconfig(self.fact_text, text="Did you know that camels\ncan store the most water\nin their bloodstream among mammals?\nThey're capable of drinking up\nto 118 liters per day,\nmaking them exceptionally adapted to\nsurvive in arid environments!")
+    
+    def check_fact(self, *args):
+        try:
+            ml = float(self.ml_var.get())
+            cl = float(self.cl_var.get())
+            dl = float(self.dl_var.get())
+            l = float(self.l_var.get())
+            kl = float(self.kl_var.get())
+        except ValueError:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+            self.canvas.update()
+            return
+
+        if kl > 1_000_000 and kl < 30_000_000 or kl > 30_000_000 or l in range(100, 200):
+            self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
+            self.canvas.coords(self.fact_button, 10, 390)
+        else:
+            self.canvas.itemconfig(self.fact_button, image=self.venti)
+            self.canvas.coords(self.fact_button, 10, 400)
+
+        self.canvas.update()
+
+    def clear_fact(self, *args):
+        self.canvas.itemconfig(self.fact_text, text="")
 
 class VoltageConverter:
     def __init__(self, window):
@@ -1431,8 +1754,6 @@ class VoltageConverter:
     def clear_fact(self, *args):
         self.canvas.itemconfig(self.fact_text, text="")
         
-
-
 
 # Not Finished
 class MainMenu:
@@ -1678,10 +1999,3 @@ class MainMenu:
 window = tk.Tk()
 MainMenu(window)
 window.mainloop()
-
-"""
-The programming approach utilized in this program was Object-oriented Programming (OOP), the reason for this is encapsulation and modularity. 
-For example, the LengthConverter class is responsible for converting length units (meters, kilometers, miles, etc.), as such this class contains the necesary conversion fu
-
-Meanwhile, the Speed
-"""
