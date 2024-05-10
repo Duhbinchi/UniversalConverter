@@ -838,8 +838,8 @@ class DataConverter:
         except ValueError:
             return
 
-        if kb in range(0, 10):
-            self.canvas.itemconfig(self.fact_text, text="Did you know? The program that sent NASA\nto the moon in 1960 was only 4 Kilobytes!")
+        if mb in range(1,11):
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The program that sent NASA\nto the moon in 1960 was only about 3 Megabytes!")
 
         if mb in range (20, 30):
             self.canvas.itemconfig(self.fact_text, text="Did you know? Currently, if you download\nPython 3.9 the file size is around 25\nMegabytes!")
@@ -858,7 +858,7 @@ class DataConverter:
             self.canvas.update()
             return
 
-        if kb in range(0, 11) or mb in range(20, 31) or gb in range(2, 6):
+        if mb in range(1, 11) or mb in range(20, 31) or gb in range(2, 6):
             self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
             self.canvas.coords(self.fact_button, 10, 390)
         else:
