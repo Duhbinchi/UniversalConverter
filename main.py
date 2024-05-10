@@ -839,7 +839,7 @@ class DataConverter:
             return
 
         if mb in range(1,11):
-            self.canvas.itemconfig(self.fact_text, text="Did you know? The program that sent NASA\nto the moon in 1960 was only about 3 Megabytes!")
+            self.canvas.itemconfig(self.fact_text, text="Did you know? The program that sent NASA\nto the moon in 1960 was only\nabout 3 Megabytes!")
 
         if mb in range (20, 30):
             self.canvas.itemconfig(self.fact_text, text="Did you know? Currently, if you download\nPython 3.9 the file size is around 25\nMegabytes!")
