@@ -176,7 +176,7 @@ class LengthConverter:
             self.canvas.itemconfig(self.fact_text, text="Did you know? The Trans-Siberian Railway\nis the world's longest train ride, crossing\nEurasia at a whopping 9289000 meters!")
 
         elif feet >= 40230:
-            self.canvas.itemconfig(self.fact_text, text="Did you know the Kola Superdeep Borehole\nin Russia is the deepest man-made hole, reaching\nabout 12,262 meters (40,230 feet) below\nthe Earth's surface?")
+            self.canvas.itemconfig(self.fact_text, text="Did you know the Kola Superdeep Borehole\nin Russia is the deepest man-made hole,\nreaching about 12,262 meters (40,230 feet)\nbelow the Earth's surface?")
 
         elif inches >= 394 or cm >= 12000:
             self.canvas.itemconfig(self.fact_text, text="Did you know the title for longest animal\ngoes to a giant siphonophore, a colonial\ncreature! Clocking in at over 120\nmeters (394 feet)")
@@ -227,7 +227,7 @@ class TimeConverter:
         self.venti = ImageTk.PhotoImage(self.image)
         self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
         self.canvas.tag_bind(self.fact_button, "<Button-1>", self.time_facts)
-        self.fact_text = self.canvas.create_text(10, 340, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.fact_text = self.canvas.create_text(10, 310, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
         self.idea_image = Image.open(get_image_path('venti_idea.png'))
         self.venti_idea = ImageTk.PhotoImage(self.idea_image)
 
