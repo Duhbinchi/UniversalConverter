@@ -1330,7 +1330,7 @@ class VolumeConverter:
         self.venti = ImageTk.PhotoImage(self.image)
         self.fact_button = self.canvas.create_image(10, 400, image=self.venti, anchor='nw')
         self.canvas.tag_bind(self.fact_button, "<Button-1>", self.volume_facts)
-        self.fact_text = self.canvas.create_text(10, 330, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
+        self.fact_text = self.canvas.create_text(10, 310, text="", anchor="nw", fill="#FFFFFF", font=my_font_s)
         self.idea_image = Image.open(get_image_path('venti_idea.png'))
         self.venti_idea = ImageTk.PhotoImage(self.idea_image)
 
