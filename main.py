@@ -606,7 +606,7 @@ class TemperatureConverter:
         if celsius in range(1,11):
             self.canvas.itemconfig(self.fact_text, text="Did you know? The all-time\nnational coldest temperature record was\n6.3°C registered in Baguio City\non Jan. 18, 1961")
 
-        elif fahrenheit in range(38,50):
+        elif celsius in range(38,50):
             self.canvas.itemconfig(self.fact_text, text="Did you know? The heat\nindex in Binan on April\n28 was 48 degrees Celsius!\nSo hot!")
 
         elif kelvin >= 1000000:
@@ -624,7 +624,7 @@ class TemperatureConverter:
             self.canvas.update()
             return
         
-        if celsius in range(1,11) or fahrenheit in range(38,50) or kelvin >= 1000000:
+        if celsius in range(1,11) or celsius in range(38,50) or kelvin >= 1000000:
             self.canvas.itemconfig(self.fact_button, image=self.venti_idea)
             self.canvas.coords(self.fact_button, 10, 390)
 
